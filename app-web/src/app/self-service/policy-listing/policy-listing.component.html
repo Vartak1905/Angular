@@ -1,0 +1,31 @@
+<div class="row cq-dash-tb-cont">
+    <mat-card class="cq-dash-tb-cont-card">
+        <mat-card-content>
+            <div class="row">
+                <div class="col-lg-6">
+                    <span>Filter</span>
+                    <button mat-icon-button [matMenuTriggerFor]="filter">
+                        <mat-icon class="cq-ipr-list-filter-icon">filter_list</mat-icon>
+                    </button>
+                    <mat-menu #filter="matMenu">
+                        <button mat-menu-item>
+                            <span>By Policy Type</span>
+                        </button>
+                        <button mat-menu-item>
+                            <span>By Policy Status</span>
+                        </button>
+                    </mat-menu>
+                </div>
+                <div class="col-lg-6 pull-right">
+                    <button mat-raised-button class="cq-btn pull-right cq-ipr-list-el-tr-info" aria-label="Add Policy"
+                        [routerLink]="'/add-policy'">
+                        <mat-icon class="cq-ipr-list-el-chip-icon cqr-chip-icon">add</mat-icon> Add Policy
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <app-table-view class="sv-ua-tableview-cont"></app-table-view>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

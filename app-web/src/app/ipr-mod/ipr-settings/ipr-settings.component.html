@@ -1,0 +1,214 @@
+<div class="row cq-ipr-rl-cont">
+    <mat-card class="cq-ipr-rl-cont-card ipr-settings">
+        <mat-card-header>
+            <mat-card-title *ngIf="ipr_type == 'process'">IPR Process Rules</mat-card-title>
+            <mat-card-title *ngIf="ipr_type == 'qualification'">Qualification Criteria</mat-card-title>
+            <mat-card-title *ngIf="ipr_type == 'evaluation'">Evaluation Criteria</mat-card-title>
+            <mat-card-subtitle>
+                <app-ng-dynamic-breadcrumb fontSize="12px" bgColor="#fff" fontColor="#ff6600" lastLinkColor="#0430ad">
+                </app-ng-dynamic-breadcrumb>
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="cq-ipr-rl-card-cont">
+            <div class="row cq-row">
+                <div class="jumbotron jumbotron-fluid">
+                    <app-close-btn></app-close-btn>
+                    <p class="lead">Note!</p>
+                    <p>Keep a note that Evaluation Criteria will be used
+                        in IPR process during RFP addition, so modify with caution.</p>
+                </div>
+            </div>
+            <div class="row cq-row" *ngIf="insurance_cat_sel && insurance_plan_cat_sel">
+                <div class="col-lg-4">
+                    <div class="margin-bt-10">
+                        <mat-chip-list>
+                            <mat-chip class="bg-color-white cqr-chip row cqr-row-chip">
+                                <mat-icon class="no-margin primary-color cqr-chip-icon">today</mat-icon>
+                                {{insurance_cat_sel}} - {{insurance_plan_cat_sel}}
+                            </mat-chip>
+                        </mat-chip-list>
+                    </div>
+                </div>
+            </div>
+            <div class="row cq-row" *ngIf="ipr_type == 'process' || ipr_type == 'qualification'">
+                <div class="row">
+                    <div class="col-lg-1">
+                        <label class="cq-ipr-rl-form-lbl lead">Sr. No</label>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="cq-ipr-rl-form-lbl lead">Rule Name</label>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="cq-ipr-rl-form-lbl lead">Rule Description</label>
+                    </div>
+                    <div class="col-lg-3">
+                        <label class="cq-ipr-rl-form-lbl lead">Rule Value</label>
+                    </div>
+                </div>
+                <div class="row" *ngFor="let rule of rulesObj?.rulesCombList[0]['ruleList']; index as idx;">
+                    <div class="col-lg-1">
+                        <label class="cq-ipr-rl-form-lbl">{{ idx + 1 }}</label>
+                    </div>
+                    <div class="col-lg-3">
+                        <label class="cq-ipr-rl-form-lbl">{{ rule.ruleName }} <span *ngIf="rule?.isMandatory">*</span>
+                            <span *ngIf="rule?.ruleLabel">({{rule?.ruleLabel}})</span>
+                        </label>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="cq-ipr-rl-form-lbl">{{ rule.ruleDesc }}</label>
+                    </div>
+                    <div class="col-lg-4 cqr-ipr-new">
+                        <mat-form-field class="form-input cq-ipr-rl-form-dd"
+                            *ngIf="rule['iprRulesOpList'][0].ruleDataType.itemValue == 'dropdown'">
+                            <mat-select [disabled]="disableForm || is_published"
+                                [(value)]="rule['iprRulesOpList'][0].value">
+                                <mat-option *ngFor="let lov of lovDataObj[rule.ruleLov]" [value]="lov.id">
+                                    {{ lov.itemName }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field class="form-input cq-ipr-rl-form-dd"
+                            *ngIf="rule['iprRulesOpList'][0].ruleDataType.itemValue == 'text' || rule['iprRulesOpList'][0].ruleDataType.itemValue == 'number'">
+                            <input [type]="rule['iprRulesOpList'][0].ruleDataType.itemValue" matInput
+                                [(ngModel)]="rule['iprRulesOpList'][0].value" autocomplete="off"
+                                [disabled]="disableForm || is_published" [readonly]="rule.isReadOnly">
+                        </mat-form-field>
+                        <!-- <span *ngIf="rule.isChange" class="badge badge-secondary"><i class="fas fa-arrows-alt-h"></i></span> -->
+                        <mat-icon class="cqr-eval-change-icon"
+                            [style.visibility]="rule.isChange ? 'visible' : 'hidden'">published_with_changes</mat-icon>
+                    </div>
+                </div>
+            </div>
+            <div class="row cq-row" *ngIf="show_inputs && ipr_type == 'evaluation'">
+                <ng-container *ngFor="let rule of combination_rules[selectCombIndex]['ruleList']; index as idx;">
+                    <div class="row cq-row" *ngIf="!rule?.isRule && !rule.isMultiple">
+                        <div class="cqr-eval-input-label">
+                            <label class="cq-ipr-rl-form-lbl">{{ rule.ruleName }} <span
+                                    *ngIf="rule?.isMandatory">*</span>
+                                <span *ngIf="rule?.ruleLabel">({{rule?.ruleLabel}})</span>
+                            </label>
+                        </div>
+                        <div class="col-lg-3">
+                            <mat-form-field *ngFor="let subRule of rule?.iprRulesOpList; let subIndex = index;"
+                                class="form-input cq-ipr-rl-form-dd">
+                                <input [type]="subRule?.ruleDataType?.itemValue"
+                                    [disabled]="disableForm || combination_rules[selectCombIndex]['isPublishable']"
+                                    matInput [(ngModel)]="subRule.value" autocomplete="off"
+                                    [readonly]="subRule.isReadable">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngFor="let rule of combination_rules[selectCombIndex]['ruleList']; index as idx;">
+                    <div class="row cq-row" *ngIf="!rule?.isRule && rule.isMultiple">
+                        <div class="cqr-eval-input-label">
+                            <label class="cq-ipr-rl-form-lbl">{{ rule.ruleName }} <span
+                                    *ngIf="rule?.isMandatory">*</span>
+                                <span *ngIf="rule?.ruleLabel">({{rule?.ruleLabel}})</span>
+                            </label>
+                        </div>
+                        <div class="col-lg-8 cqr-eval-wrap-multiple-inputs">
+                            <div *ngFor="let subRule of rule?.iprRulesOpList; let subIndex = index;"
+                                class="cqr-eval-label">
+                                <h6 class="cqr-eval-multiple-input-heading">{{scores_obj[subRule.label]?.label}}</h6>
+                                <input [type]="subRule?.ruleDataType?.itemValue"
+                                    [disabled]="disableForm || subRule.isReadable || combination_rules[selectCombIndex]['isPublishable']"
+                                    class="cqr-rule-eval-input margin-ri-20" [(ngModel)]="subRule.value"
+                                    autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <div class="row cq-row cqr-ipr-rl-eval-tb-cont">
+                    <table class="cqr-eval-table">
+                        <tr class="cqr-eval-bold">
+                            <td>Evaluation Parameters</td>
+                            <td class="margin-ri-20 ">Use?</td>
+                            <td *ngFor="let item of lovDataObj['scores'];let i = index;"
+                                [attr.colspan]="colSpan[item.id]" [ngClass]="{'text-center' : colSpan[item.id] > 1}">
+                                {{item?.itemName}}</td>
+                        </tr>
+                        <tr class="cqr-eval-bold">
+                            <td colspan="2"></td>
+                            <td *ngFor="let operator of arithmetic_list; let i = index;" class="text-center ">
+                                {{operator?.arithOperator}}</td>
+                        </tr>
+                        <ng-container
+                            *ngFor="let rule of combination_rules[selectCombIndex]['ruleList']; let i = index;">
+                            <tr *ngIf="rule?.isRule">
+                                <td class="cqr-eval-input-label">{{rule?.ruleName}}<span
+                                        *ngIf="rule?.isMandatory">*</span>
+                                    <span *ngIf="rule?.ruleLabel">{{rule?.ruleLabel}}</span></td>
+                                <td>
+                                    <mat-checkbox class="margin-ri-20" [disabled]="disableForm"
+                                        [(ngModel)]="rule.isActive" type="checkbox" (change)="calculateWeight()">
+                                    </mat-checkbox>
+                                </td>
+                                <td *ngFor="let subRule of rule?.iprRulesOpList; let subIndex = index;">
+                                    <mat-icon class="cqr-eval-change-icon"
+                                        [style.visibility]="subRule.isChange ? 'visible' : 'hidden'">
+                                        published_with_changes
+                                    </mat-icon>
+                                    <input (input)="handleChange(subRule,i, subIndex)"
+                                        [disabled]="disableForm || subRule.isReadable || combination_rules[selectCombIndex]['isPublishable'] || !rule.isActive"
+                                        [type]="subRule?.ruleDataType?.itemValue"
+                                        [ngClass]="{'margin-ri-20' : indexObj[subIndex]}"
+                                        class="cqr-rule-eval-input {{scores_obj[subRule.label]?.label}}"
+                                        (blur)="calculateWeight();" [(ngModel)]="subRule.value">
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </table>
+                </div>
+            </div>
+            <div *ngIf="show_inputs && ipr_type == 'evaluation'" class="row cq-row">
+                <div class="cqr-eval-input-label">
+                    <label class="cq-ipr-rl-form-lbl">Total Weight</label>
+                </div>
+                <div class="col-lg-3">
+                    <div class="cqr-eval-input-label">
+                        <label class="cq-ipr-rl-form-lbl">{{weight_sum}}/ 100(%)</label>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="show_inputs && ipr_type == 'evaluation'" class="row cq-row">
+                <div class="cqr-eval-input-label">
+                    <label class="cq-ipr-rl-form-lbl">Definition Complete</label>
+                </div>
+                <div class="col-lg-3">
+                    <mat-checkbox [disabled]="disableForm" class="cqr-eval-publish"
+                        [(ngModel)]="combination_rules[selectCombIndex]['isPublishable']" type="checkbox">
+                    </mat-checkbox>
+                </div>
+                <div class="col-lg-3">
+
+                </div>
+            </div>
+            <div *ngIf="show_inputs && ipr_type != 'evaluation'" class="row cq-row">
+                <div class="col-lg-1">
+                    <label class="cq-ipr-rl-form-lbl"></label>
+                </div>
+                <div class="col-lg-3">
+                    <label class="cq-ipr-rl-form-lbl">Definition Complete</label>
+                </div>
+                <div class="col-lg-4">
+                    <label class="cq-ipr-rl-form-lbl"></label>
+                </div>
+                <div class="col-lg-4">
+                    <mat-checkbox [disabled]="disableForm" [(ngModel)]="is_published" type="checkbox">
+                    </mat-checkbox>
+                </div>
+            </div>
+            <div *ngIf="show_inputs" class="row cq-row pull-right">
+                <button (click)="goBack()" mat-raised-button class="cq-accent-color cq-form-btn">Cancel</button>
+                <button [disabled]="disableForm" [ngClass]="{'btn-disable': disableForm}" (click)="onBeforeRuleSave()"
+                    mat-raised-button
+                    class="cq-accent-color cq-form-btn">{{ is_admin ? 'Save as Draft' : 'Save' }}</button>
+                <!-- <button [ngClass]="{'btn-disable': disableForm}"
+                    [disabled]="disableForm" (click)="onBeforePublished()" mat-raised-button
+                    class="cq-accent-color cq-form-btn">Publish</button> -->
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

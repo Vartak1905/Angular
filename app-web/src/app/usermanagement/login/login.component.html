@@ -1,0 +1,49 @@
+<div class="container-fluid login-container">
+  <div class="row no-gutter bg-image">
+    <div class="d-none d-md-flex col-md-4 col-lg-6">
+    </div>
+    <div class="col-md-8 col-lg-6 bg-blue-transparent">
+      <div class="login d-flex align-items-center py-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-9 col-lg-7 mx-auto text-center">
+              <img src="../../../assets/logo.png" class="logo-login mt0 mb10"/>
+              <h3 class="login-heading mt20 mb20 ">Welcome back!</h3>
+              <form [formGroup]="loginDetails">
+                <div class="form-label-group">
+                  <img src="../../../assets/user.svg" class="icon-img">
+                  <input type="text" class="form-control" formControlName="userId" placeholder="Username"
+                    autocomplete="off">
+                  <mat-error
+                    *ngIf="loginDetails.get('userId').errors?.required && loginDetails.controls?.userId?.touched">
+                    Please enter username
+                  </mat-error>
+                </div>
+                <div class="form-label-group">
+                  <img src="../../../assets/pass.svg" class="icon-img-pass">
+                  <input class="form-control" formControlName="password" placeholder="Password" type="password"
+                    autocomplete="off">
+                  <mat-error
+                    *ngIf="loginDetails.get('password').errors?.required && loginDetails.controls?.password?.touched">
+                    Please enter password
+                  </mat-error>
+                </div>
+                <div class="custom-control text-left custom-checkbox mb-3">
+                  <input type="checkbox" class="custom-control-input" id="customCheck1">
+                  <label class="custom-control-label font500 color-gray" for="customCheck1"
+                    style="padding-top: 2px;">Remember Password</label>
+                </div>
+                <button class="btn btn-lg all-btn btn-block btn-login text-uppercase font-weight-bold mb-2"
+                  (click)="login()" type="submit">Sign in</button>
+                <div class="forgot">
+                  <a class="font14 color-gray font500 float-left" routerLink="/register">Register Now </a>
+                  <a class="font14 color-gray font500 float-right" routerLink="/signin">Forgot Password?</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

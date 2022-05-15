@@ -1,0 +1,404 @@
+<div class="cq-ipr-proc-ct-quick-card">
+    <mat-card class="cq-ipr-proc-ct-quick-card">
+        <mat-card-header class="cq-ipr-proc-ct-card-header">
+            <mat-card-title>Quick IPR</mat-card-title>
+            <mat-card-subtitle>
+                <app-ng-dynamic-breadcrumb fontSize="12px" bgColor="#fff" fontColor="#ff6600" lastLinkColor="#0430ad">
+                </app-ng-dynamic-breadcrumb>
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="cq-ipr-proc-ct-quick-cont-card-cont">
+            <div class="col-md-12 cq-row">
+
+                <mat-horizontal-stepper (selectionChange)="onStepChange($event)" [linear]="true" #stepper
+                    labelPosition="bottom" [disableRipple]="true">
+                    <ng-container *ngIf="STEPPER_DATA_LIST">
+                        <!-- Step For IPR Basic Details -->
+                        <mat-step [completed]="STEPPER_DATA_LIST[0]?.completed" [stepControl]="iprBasicDetails">
+
+                            <form [formGroup]="iprBasicDetails">
+                                <mat-card class="cqr-quick-ipr-step-cont-card">
+                                    <div class="row">
+                                        <ng-template matStepperIcon="edit">
+                                            <mat-icon>done</mat-icon>
+                                        </ng-template>
+                                        <ng-template matStepLabel>
+                                            {{STEPPER_DATA_LIST[0]?.name}}
+                                        </ng-template>
+                                        <div class="col-md-12 cqr-text-center mt-15">
+                                            <p class="primary-color cqr-quick-ipr-step-title no-margin">IPR Basic
+                                                Details
+                                            </p>
+                                            <p class="cqr-quick-ipr-step-subtitle no-margin">Please enter
+                                                Basic Details for creating the IPR.</p>
+                                        </div>
+
+                                        <div class="col-md-12 mt-35">
+                                            <div class="col-md-11 cq-ipr-proc-center">
+                                                <div class="row">
+                                                    <mat-form-field class="cq-ipr-proc-mat" appearance="outline">
+                                                        <mat-label>IPR Title</mat-label>
+                                                        <input matInput formControlName="iprTitle" type="text"
+                                                            placeholder="IPR Title" autocomplete="off">
+                                                        <mat-error
+                                                            *ngIf="iprBasicDetails.get('iprTitle').errors?.required">
+                                                            Please Enter IPR title
+                                                        </mat-error>
+                                                        <mat-error
+                                                            *ngIf="iprBasicDetails.get('iprTitle').hasError('minlength')">
+                                                            IPR title min length should be 3
+                                                        </mat-error>
+                                                        <mat-error
+                                                            *ngIf="iprBasicDetails.get('iprTitle').hasError('maxlength')">
+                                                            IPR title max length should be 241
+                                                        </mat-error>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="row mt-15">
+                                                    <div class="col-md-5 no-padding">
+                                                        <mat-form-field class="cq-ipr-proc-mat" appearance="outline">
+                                                            <mat-label>Insurance Category</mat-label>
+                                                            <mat-select formControlName="insCategory">
+                                                                <mat-option
+                                                                    *ngFor="let lov of lovDataObj?.insuranceCategory"
+                                                                    [value]="lov.id">
+                                                                    {{ lov.itemName }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error
+                                                                *ngIf="iprBasicDetails.get('insCategory').errors?.required">
+                                                                Please select insurance category
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-2">
+
+                                                    </div>
+                                                    <div class="col-md-5 no-padding">
+                                                        <mat-form-field class="cq-ipr-proc-mat" appearance="outline">
+                                                            <mat-label>Insurance Plan Category</mat-label>
+                                                            <mat-select formControlName="insPlanCategory">
+                                                                <mat-option
+                                                                    *ngFor="let lov of lovDataObj?.insurancePlanCategory"
+                                                                    [value]="lov.id">
+                                                                    {{ lov.itemName }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error
+                                                                *ngIf="iprBasicDetails.get('insPlanCategory').errors?.required">
+                                                                Please select insurance plan category
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-15">
+                                                    <div class="col-md-5 no-padding">
+                                                        <mat-form-field class="cq-ipr-proc-mat" appearance="outline">
+                                                            <mat-label>Insurance Plan Type</mat-label>
+                                                            <mat-select formControlName="insPlanType">
+                                                                <mat-option
+                                                                    *ngFor="let lov of lovDataObj?.insurancePlanType"
+                                                                    [value]="lov.id">
+                                                                    {{ lov.itemName }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error
+                                                                *ngIf="iprBasicDetails.get('insPlanType').errors?.required">
+                                                                Please select insurance plan type
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-2">
+
+                                                    </div>
+                                                    <div class="col-md-5 no-padding">
+                                                        <mat-form-field class="cq-ipr-proc-mat" appearance="outline">
+                                                            <mat-label>Insurance Policy Type</mat-label>
+                                                            <mat-select formControlName="insPolicyType">
+                                                                <mat-option
+                                                                    *ngFor="let lov of lovDataObj?.insurancePolicyType"
+                                                                    [value]="lov.id">
+                                                                    {{ lov.itemName }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error
+                                                                *ngIf="iprBasicDetails.get('insPolicyType').errors?.required">
+                                                                Please select insurance policy type
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-card>
+                                <div class="row mt-35">
+                                    <div class="col-md-6">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button mat-button class="cq-btn cq-form-btn pull-right cursor-pointer"
+                                            (click)="nextStep()">Next
+                                            &nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </mat-step>
+                        <!-- Step For IPR Basic Details -->
+
+                        <mat-step [completed]="STEPPER_DATA_LIST[1]?.completed" [stepControl]="iprProcOptions">
+                            <form [formGroup]="iprProcOptions">
+                                <mat-card class="cqr-quick-ipr-step-cont-card">
+                                    <div class="row">
+                                        <ng-template matStepLabel>
+                                            {{STEPPER_DATA_LIST[1]?.name}}
+                                        </ng-template>
+
+                                        <div class="col-md-12 cqr-text-center mt-15">
+                                            <p class="primary-color cqr-quick-ipr-step-title no-margin">IPR Process
+                                                Options
+                                            </p>
+                                            <p class="cqr-quick-ipr-step-subtitle no-margin">Please choose appropriate
+                                                IPR
+                                                process options.</p>
+                                        </div>
+
+
+                                        <div class="col-md-12 mt-35">
+                                            <div class="col-md-9 cq-ipr-proc-center">
+                                                <div class="row mt-15">
+                                                    <div class="col-md-5 no-padding">
+                                                        <mat-form-field class="cq-ipr-proc-mat" appearance="outline">
+                                                            <mat-label>IPR Type</mat-label>
+                                                            <mat-select formControlName="iprType">
+                                                                <mat-option
+                                                                    *ngFor="let lov of lovDataObj?.iprProcessRuleTypes"
+                                                                    [value]="lov.id">
+                                                                    {{ lov.itemName }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error
+                                                                *ngIf="iprProcOptions.get('iprType').errors?.required">
+                                                                Please select ipr type
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-2">
+
+                                                    </div>
+                                                    <div class="col-md-5 no-padding">
+                                                        <mat-form-field class="cq-ipr-proc-mat" appearance="outline">
+                                                            <mat-label>Bid Type</mat-label>
+                                                            <mat-select formControlName="bidType">
+                                                                <mat-option
+                                                                    *ngFor="let lov of lovDataObj?.iprProcessRuleBidType"
+                                                                    [value]="lov.id">
+                                                                    {{ lov.itemName }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <mat-error
+                                                                *ngIf="iprProcOptions.get('bidType').errors?.required">
+                                                                Please select bid type
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-card>
+                                <div class="col-md-12 no-padding mt-35" align="end">
+                                    <button mat-button class="cq-btn cq-form-btn" (click)="backStep()"><i
+                                            class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;Back</button>
+                                    <button mat-button class="cq-btn cq-form-btn pull-right" (click)="nextStep()">Next
+                                        &nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+                                </div>
+                            </form>
+
+
+
+                        </mat-step>
+
+                        <!-- Step For Calendar -->
+                        <mat-step [completed]="STEPPER_DATA_LIST[2]?.completed">
+                            <div class="col-md-12 cqr-text-center no-padding">
+                                <ng-template matStepLabel>
+                                    {{STEPPER_DATA_LIST[2]?.name}}
+                                </ng-template>
+                                <mat-card class="cqr-quick-ipr-step-cont-card">
+                                    <div class="col-md-12 cqr-text-center mt-15">
+                                        <p class="primary-color cqr-quick-ipr-step-title no-margin">IPR Calendar
+                                        </p>
+                                        <p class="cqr-quick-ipr-step-subtitle no-margin">Please select appropriate
+                                            Calendar
+                                            choice to define IPR schedule. In case you choose "Standard", system will
+                                            auto
+                                            define calendar based on the IPR issue date. In case of "Custom" calendar,
+                                            you
+                                            will need to decide various activity dates.</p>
+                                    </div>
+                                    <div class="col-md-12 mt-35">
+                                        <app-cal-rule-custom *ngIf="processData" [showCalTypes]="true"
+                                            (onDataChange)="getUpdatedCalData($event)" [itemId]="processData['id']"
+                                            [itemType]="processItemType" [calendarType]="calendarType"
+                                            [issueDate]="issueDate">
+                                        </app-cal-rule-custom>
+                                    </div>
+                                </mat-card>
+                            </div>
+                            <div class="col-md-12 no-padding mt-35" align="end">
+                                <button mat-button class="cq-btn cq-form-btn" (click)="backStep()"><i
+                                        class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;Back</button>
+                                <button mat-button class="cq-btn cq-form-btn pull-right" (click)="nextStep()">Next
+                                    &nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+                            </div>
+                        </mat-step>
+                        <!-- Step For Calendar -->
+
+                        <!-- Step For Invitation to Insurers -->
+                        <mat-step [completed]="STEPPER_DATA_LIST[3]?.completed">
+                            <div class="row">
+                                <ng-template matStepLabel>
+                                    {{STEPPER_DATA_LIST[3]?.name}}
+                                </ng-template>
+
+                                <mat-card class="cqr-quick-ipr-step-cont-card">
+
+                                    <div class="col-md-12 cqr-text-center mt-15">
+                                        <p class="primary-color cqr-quick-ipr-step-title no-margin">Invitation to
+                                            Insurers
+                                        </p>
+                                        <p class="cqr-quick-ipr-step-subtitle">Based on the Insurance Category and
+                                            Insurance
+                                            Plan Category of the IPR, registered Insurares will be proposed. You can
+                                            choose
+                                            the Insurers, to whom you wish to send the IPR.</p>
+                                    </div>
+
+                                    <div class="col-md-12 mt-35">
+                                        <div class="col-md-9 cq-ipr-proc-center">
+                                            <div class="col-md-12 mt-15 ml-3 mb-15">
+                                                <ng-container *ngIf="allInsComp">
+                                                    <app-chk-paginator [singSelTitle]="'Insurance Company'"
+                                                        [multiSelTitle]="'Insurance Companies'" [dataList]="allInsComp"
+                                                        [pageSize]="8" (onDataChecked)="onInsChecked($event)"
+                                                        [filter]="true" [isEditable]="isEditable"
+                                                        [filterItems]="[{name:'companyName',label:'Name'},{name:'id',label:'Id'}]">
+                                                    </app-chk-paginator>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-card>
+                                <div class="col-md-12 no-padding mt-35" align="end">
+                                    <button mat-button class="cq-btn cq-form-btn" (click)="backStep()"><i
+                                            class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;Back</button>
+                                    <button mat-button class="cq-btn cq-form-btn pull-right" (click)="nextStep()">Next
+                                        &nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </mat-step>
+
+                        <!-- Step For Invitation to Insurers -->
+
+                        <!-- Step For IPR Document -->
+                        <mat-step [completed]="STEPPER_DATA_LIST[4]?.completed">
+                            <div class="col-md-12 no-padding">
+                                <ng-template matStepLabel>
+                                    {{STEPPER_DATA_LIST[4]?.name}}
+                                </ng-template>
+                                <mat-card class="cqr-quick-ipr-step-cont-card">
+                                    <div class="col-md-12 cqr-text-center mt-15">
+                                        <p class="primary-color cqr-quick-ipr-step-title no-margin">IPR Document
+                                        </p>
+                                        <p class="cqr-quick-ipr-step-subtitle no-margin">Create and Upload IPR document
+                                            to
+                                            be shared with Insurers.</p>
+                                    </div>
+
+                                    <div class="col-md-12 mt-35 mb-15">
+                                        <div class="col-md-9 cq-ipr-proc-center">
+                                            <div class="row mt-15 ml-3">
+                                                <div class="col-md-5 no-padding">
+                                                    <button mat-button (click)="downloadTemplate()"
+                                                        class="cqr-ipr-proc-quick-temp-btn pull-right"><i
+                                                            class="fa fa-download"></i> &nbsp;Download IPR
+                                                        Template</button>
+                                                </div>
+                                                <div class="col-md-2">
+
+                                                </div>
+                                                <div class="col-md-5 no-padding">
+                                                    <input hidden #docUpload type="file"
+                                                        (change)="uploadFile($event.target.files)"
+                                                        placeholder="Document File" autocomplete="off"
+                                                        id="documentFile">
+                                                    <button mat-button class="cqr-ipr-proc-quick-temp-btn"
+                                                        (click)="docUpload.click()"><i class="fa fa-upload"></i>
+                                                        &nbsp;Upload
+                                                        IPR
+                                                        Document</button>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-15">
+                                                <div class="col-md-9 no-padding cqr-div-center">
+                                                    <mat-card class="mt-15" *ngFor="let doc of documentList">
+                                                        <div class="row">
+                                                            <div class="col-md-11">
+                                                                <i *ngIf="doc.attachment"
+                                                                    [class]="getFileIcon(doc?.attachment?.fileName)"></i>&nbsp;&nbsp;
+                                                                {{doc?.attachment?.fileName}}
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                                <i class="fa fa-trash-alt pull-right grey-color cursor-pointer"
+                                                                    (click)="deleteDoc(doc)"></i>
+                                                            </div>
+                                                        </div>
+                                                    </mat-card>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-card>
+
+                                <div class="col-md-12 no-padding mt-35" align="end">
+                                    <button mat-button class="cq-btn cq-form-btn" (click)="backStep()"><i
+                                            class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;Back</button>
+                                    <button mat-button class="cq-btn cq-form-btn pull-right" (click)="nextStep()">Next
+                                        &nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </mat-step>
+                        <!-- Step For IPR Document -->
+
+                        <!-- Step For IPR Issuance -->
+                        <mat-step [completed]="STEPPER_DATA_LIST[5]?.completed">
+                            <div class="col-md-12">
+                                <ng-template matStepLabel>
+                                    {{STEPPER_DATA_LIST[5]?.name}}
+                                </ng-template>
+                                <mat-card class="cqr-quick-ipr-step-cont-card">
+                                    <div class="col-md-12 cqr-text-center mt-15">
+                                        <p class="primary-color cqr-quick-ipr-step-title no-margin">IPR Issuance
+                                        </p>
+                                    </div>
+                                    <div class="col-md-12 cqr-text-center mt-35">
+                                        <i class="fas fa-trophy cqr-fs-45 primary-color"></i>
+                                    </div>
+
+                                    <div class="col-md-12 cqr-text-center mt-35">
+                                        <p class="grey-color-1 cqr-fs-18 no-margin">Congratulation!</p>
+                                        <p class="grey-color-1 cqr-fs-18">Your IPR has been issued to selected Insurers.
+                                        </p>
+                                    </div>
+                                </mat-card>
+                            </div>
+                        </mat-step>
+                    </ng-container>
+                    <!-- Step For IPR Issuance -->
+                </mat-horizontal-stepper>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

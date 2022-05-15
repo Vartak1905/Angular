@@ -1,0 +1,66 @@
+.cq-ipr-rl-cont-card {
+    border: none;
+    box-shadow: none;
+    width: 100%;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+  
+  
+  .cq-ipr-rl-cont-card .cq-row {
+    padding: 1rem 0rem;
+  }
+  
+  .cq-ipr-rl-card-cont {
+    padding: 1rem;
+  }
+  
+  .cq-ipr-rl-form {
+    width: 100%;
+  }
+  
+  .cq-ipr-rl-form-lbl {
+    margin-top: 1rem;
+    font-weight: normal !important;
+  }
+  
+  .cq-ipr-rl-form-dd {
+    width: 100%;
+  }
+  
+  .cq-ipr-rl-cont-card .jumbotron {
+    padding: 2rem 5rem;
+  }
+  
+  .cq-ipr-rl-form-lbl.lead {
+    font-size: 1.1rem;
+  }
+
+  .cq-ipr-rl-ovrflow-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 150px;
+  }
+
+  
+.cq-ipr-doc-temp-table{
+    width:100% !important;
+}
+
+.cq-ipr-doc-temp-table th, td{
+    border-bottom: 1px solid #d7cece !important;
+    height: 46px !important;
+}
+
+.cq-ipr-rl-ovrflow-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cq-ipr-rl-box{
+  border:1px solid #e9e9e9;
+  border-radius: 2px;
+  padding: 1rem 1rem 1.5rem;
+}

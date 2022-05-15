@@ -1,0 +1,22 @@
+.sv-app-tbview {
+  width: 100%;
+}
+
+.mat-sort-header-button {
+  margin-left: 5px;
+}
+
+.mat-sort-header-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+}
+
+.cq-wid-tb-cont {
+  overflow-x: auto;
+  /* max-height: 60vh; */
+}
+
+.cq-wid-tb-cont .td.mat-cell {
+  min-width: 10rem;
+}

@@ -1,0 +1,17 @@
+<div class="row cq-dash-tb-cont" *ngIf="columns.length > 0 && dataSource!=null && dataSource!=undefined">
+    <mat-card class="cq-dash-tb-cont-card">
+        <button class="close" mat-button (click)="closeDialogue()">X</button>
+        <mat-card-header>
+            <mat-card-title>Performer History</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row cq-row">
+                <div class="col-lg-4">
+                </div>
+                <div class="col-lg-8">
+                </div>
+            </div>
+            <mdt-dynamic-table class="sv-app-tbview" [columns]="columns" [dataSource]="dataSource" [pageSize]=5></mdt-dynamic-table>
+        </mat-card-content>
+    </mat-card>
+</div>

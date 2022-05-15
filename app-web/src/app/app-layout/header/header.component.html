@@ -1,0 +1,91 @@
+<header class="main-header">
+  <a routerLink="{{_layoutService.homepage}}" class="logo">
+    <span class="logo-mini"><img src="../../../assets/small-logo.jpg" class="small-img"></span>
+    <span class="logo-lg"><img src="../../../assets/logo.jpg" class="logo-img"></span>
+  </a>
+  <!-- Right navbar links -->
+
+  <nav class="navbar navbar-expand cq-accent-color primary-color-bg">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+          <i class="fas fa-bars white-text"></i>
+        </a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <!-- Notifications Dropdown Menu -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-bell white-text"></i>
+          <span class="badge badge-warning navbar-badge icon-notify">15</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-header">15 Notifications</span>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-envelope mr-2"></i> 4 new messages
+            <span class="float-right text-muted text-sm">3 mins</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-users mr-2"></i> 8 friend requests
+            <span class="float-right text-muted text-sm">12 hours</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-file mr-2"></i> 3 new reports
+            <span class="float-right text-muted text-sm">2 days</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+        </div>
+      </li>
+      <!-- <li class="dropdown mx-auto">
+                <div class="custom-profile">
+                    <a href="#" class="" data-toggle="dropdown">
+                    <img src="../../../assets//user.jpg" style="max-width: 25px;" class="profile-image img-circle white-text"><span class="profile-name">Alexander</span></a>
+                </div>
+               
+            </li> -->
+      <li class="dropdown user user-menu" *ngIf="loggedUser != null && loggedUser['firstName'] != ''">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          <img src="{{this.loggedUser['profileImage']!=null?this.loggedUser['profileImage']:'../../../assets/user.jpg'}}" class="user-image" alt="User Image">
+          <span class="hidden-xs white-text">{{ loggedUser['firstName'] + ' ' + (loggedUser['lastName']!=null?loggedUser['lastName']:'')}}</span>
+        </a>
+        <ul class="dropdown-menu" style="margin-left: -25px;">
+          <!-- User image -->
+          <li class="user-header">
+            <img src="{{this.loggedUser['profileImage']!=null?this.loggedUser['profileImage']:'../../../assets/user.jpg'}}" class="img-circle" alt="User Image">
+
+            <p>
+              Manager
+              <small>Member since Nov. 2012</small>
+            </p>
+          </li>
+
+          <!-- Menu Footer-->
+          <li class="user-footer">
+            <div class="text-center">
+              <a href="#" class="btn blue-btn btn-flat" routerLink="/update-profile">Profile</a>
+            </div>
+            <!--<div class="pull-right">
+                      <a href="#" class="btn blue-btn btn-flat">Logout</a>
+                    </div>-->
+          </li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+          <i class="fa fa-cog white-text" aria-hidden="true"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-widget="control-sidebar" (click) = "logout()" data-slide="true" href="#" role="button">
+          <i class="fa fa-sign-out-alt white-text" aria-hidden="true"></i>
+        </a>
+      </li>
+    </ul>
+
+  </nav>
+</header>

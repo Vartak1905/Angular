@@ -1,0 +1,15 @@
+<button mat-icon-button color="primary" [matMenuTriggerFor]="appMenu">
+    <mat-icon>more_vert</mat-icon>
+</button>
+
+<mat-menu #appMenu="matMenu">
+    <ng-container *ngFor="let menu of menuList">
+        <button mat-menu-item *ngIf="!menu.menuAction || (menu.menuAction && menu.menuAction(rowData))" (click)="onMenuSelection(menu.name)">
+            <mat-icon>{{ menu.icon }}</mat-icon>
+            <ng-container *ngIf="menu.menuAction;then custom_content else menu_content">
+            </ng-container>
+            <ng-template #custom_content>{{menu.menuAction(rowData)}}</ng-template>
+            <ng-template #menu_content>{{menu.displayName}}</ng-template>
+        </button>
+    </ng-container>
+</mat-menu>

@@ -1,0 +1,61 @@
+<div class="col-md-12 cqr-text-center mt-35" *ngIf="showCalTypes">
+    <mat-radio-group name="rfpCalendar1" [(ngModel)]="calendarType" (change)="calTypeChange($event)">
+        <mat-radio-button *ngFor="let opt of calendarTypeList" [value]="opt" class="ml-15">
+            {{opt}}
+        </mat-radio-button>
+    </mat-radio-group>
+</div>
+<div class="col-md-12 mt-35">
+    <table class="table cq-cal-rul-custom-table">
+        <thead>
+            <tr class="mat-row cdk-row ng-star-inserted">
+                <th>Activity</th>
+                <th>Milestone</th>
+                <th>Days from Issue Date</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let rule of calendarRules?.rulesCombList[0]['ruleList']; index as idx;"
+                class="mat-row cdk-row ng-star-inserted">
+                <td>
+                    <label class="cq-ipr-rl-form-lbl">{{ rule.ruleName }}
+                    </label>
+                </td>
+                <td>
+                    <label class="cq-ipr-rl-form-lbl">{{ rule.ruleDesc }}</label>
+                </td>
+                <td>
+                    <label class="cq-ipr-rl-form-lbl" *ngIf="calendarType=='Standard'">
+                        {{rule?.iprRulesOpList[0]?.value}}</label>
+                    <ng-container *ngIf="calendarType=='Custom'">
+                        <input *ngIf="rule?.iprRulesOpList[0]?.ruleDataType?.itemValue == 'number'" matInput
+                            [(ngModel)]="rule?.iprRulesOpList[0].value" autocomplete="off" [readonly]="rule.isReadOnly"
+                            (change)="updateCalDate()" class="cq-ipr-proc-input">
+                    </ng-container>
+                </td>
+                <td>
+                    <ng-container class="form-input cq-ipr-rl-form-dd"
+                        *ngIf="rule?.iprRulesOpList[0]?.ruleDataType?.itemValue == 'number' && rule.ruleName == 'Issue Date'">
+                        <mat-form-field appearance="fill">
+                            <mat-label >Choose a date</mat-label>
+                            <input matInput [ngModel]="issueDate | date:'yyyy-MM-dd'"
+                                (ngModelChange)="issueDate = $event;updateCalDate()" [matDatepicker]="picker"
+                                autocomplete="off" readonly="true">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </ng-container>
+                    <ng-container class="form-input cq-ipr-rl-form-dd" *ngIf="rule.ruleName != 'Issue Date'">
+                        <input type="text" autocomplete="off" class="cq-ipr-proc-input"
+                            [ngModel]="issueDate?(rule?.iprRulesOpList[0].iprDate | date:'dd-MM-yyyy'):''"
+                            [readonly]="true">
+                    </ng-container>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="col-md-12" *ngIf="isSave" align="end">
+    <button mat-button class="cq-btn cq-form-btn pull-right" (click)="saveCalRule()">Save</button>
+</div>

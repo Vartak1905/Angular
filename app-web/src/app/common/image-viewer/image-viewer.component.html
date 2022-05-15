@@ -1,0 +1,12 @@
+<mat-card class="cq-dash-tb-cont-card">
+    <button class="close" mat-button (click)="closeModal()">X</button>
+    <div>
+        <mat-card-title class="text-center">{{imgTitle || 'Image'}}</mat-card-title>
+    </div>
+    <mat-card-content>
+        <img *ngIf="imgURL" class="mx-auto d-block" [src]="imgURL" [title]="data?.title" [alt]="data?.title" />
+    </mat-card-content>
+    <div class="text-center" >
+        <button (click)="closeModal()" color="primary" mat-button cdkFocusInitial>Close</button>
+    </div>
+</mat-card>

@@ -1,0 +1,41 @@
+<div class="row cq-dash-tb-cont">
+    <mat-card class="cq-dash-tb-cont-card">
+        <mat-card-header>
+            <mat-card-title>Users Dashboard</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row cq-row">
+                <div class="col-lg-4">
+                    <!-- <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
+                            <input type="search" class="form-control" placeholder="User Name">
+                        </div>
+                    </div> -->                   
+                </div>
+                <div class="col-lg-8 pull-right">
+                    <button (click)="openDialog()" mat-mini-fab color="primary" class="cqr-dash-setting-btn" aria-label="Example icon button with a menu icon">
+                        <mat-icon>settings</mat-icon>
+                    </button>
+                    <button mat-raised-button class="cq-dash-add-btn cq-accent-color"
+                        aria-label="Register Company" (click)="addNewUser()">
+                        <mat-icon>add</mat-icon> Add New User
+                    </button>
+                    
+                </div>
+            </div>
+            <div class="row cq-row" *ngIf="filterObj.filterData?.length > 0">
+                <div class="col-lg-4">
+                    <mat-chip-list aria-label="Fish selection">
+                        <mat-chip *ngFor="let item of filterObj.filterData; let i = index;">{{item?.fieldName.toLowerCase()}} - {{item?.fieldValue}} <mat-icon (click)="clearFilter(i)">close</mat-icon></mat-chip>
+                    </mat-chip-list>
+                </div>
+            </div>
+            <app-table-view [filter]="true" [serverSide]="true" [pageSize]="10" (pageChange)="handlePageChange($event)" class="sv-ua-tableview-cont"></app-table-view>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,80 @@
+.cq-ipr-qual-view-cont-card {
+  border: none;
+  box-shadow: none !important;
+  width: 100%;
+  margin: 0 !important;
+}
+
+.ipr-settings {
+  box-shadow: none;
+}
+
+.cq-ipr-qual-view-cont-card .cq-row {
+  padding: 1rem 0rem;
+}
+
+.cq-ipr-qual-view-form-lbl {
+  margin-top: 1rem;
+  font-weight: normal !important;
+}
+
+.cq-ipr-qual-view-form-dd {
+  width: 100%;
+}
+
+.cq-ipr-qual-view-cont-card .jumbotron {
+  padding: 2rem 5rem;
+  width: 100%;
+}
+
+.cq-ipr-qual-view-form-lbl.lead {
+  font-size: 1.1rem;
+}
+
+.cq-ipr-qual-view-form-cb {
+  margin-top: 1rem;
+  font-weight: normal !important;
+}
+
+.cqr-eval-change-icon.mat-icon {
+  font-size: 16px;
+  height: 15px;
+  width: 15px;
+  display: block;
+  margin-left: 20px;
+}
+
+.cqr-rule-eval-input {
+  width: 70px;
+  border-color: rgba(118, 118, 118, 0.3);
+}
+
+.margin-ri-20 {
+  margin-right: 20px;
+}
+
+.cqr-eval-wrap-multiple-inputs {
+  display: inline-flex;
+}
+
+.cqr-eval-multiple-input-heading {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.cq-ipr-rl-cont-card .cq-row {
+  padding: 0;
+}
+
+.cqr-eval-table {
+  margin-top: 2rem;
+  padding-right: 2rem;
+}
+
+.cqr-ipr-rl-eval-tb-cont {
+  width: 100%;
+  overflow-y: hidden;
+  overflow-x: auto;
+  padding-bottom: 1rem !important;
+}

@@ -1,0 +1,12 @@
+<form [formGroup]="textfg" (ngSubmit)="apply()">
+    <h2 mat-dialog-title>Filter for {{ displayName }}</h2>
+    <mat-dialog-content>
+        <mat-form-field>
+            <input type="text" formControlName="textInput" matInput placeholder="Containing" name="value" [(ngModel)]="model.value">
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-button mat-dialog-close (click)="clearFilter()">Clear</button>
+        <button mat-button type="submit">Apply</button>
+    </mat-dialog-actions>
+</form>

@@ -1,0 +1,51 @@
+
+.cqr-chk-page-fab{
+    background-color:  #ff6600;
+    box-shadow: none;
+}
+
+.cq-chk-page-input{
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+.cq-chk-page-sel-content{
+    background-color:#ffe4d7;
+}
+
+.cq-chk-page-card{
+    border-radius: 5px;
+    box-shadow: 0 0 10px #ccc;
+}
+.cq-chk-page-title{
+    padding: 15px 15px 15px 10px;
+    border-bottom: 1px solid #ccc;
+}
+.cq-chk-page-data{
+    padding:10px;
+}
+
+.cq-chk-page-bor-top{
+    border-top: 1px solid #ccc;
+}
+.cq-chk-page-bor-bottom{
+    border-bottom: 1px solid #ccc;
+}
+
+.cq-chk-page-bor-bottom-none{
+    border-bottom: none;
+}
+
+.cq-chk-page-ovrflow-text {
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: clip; 
+}

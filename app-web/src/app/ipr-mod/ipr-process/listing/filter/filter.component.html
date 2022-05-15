@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Filter for {{ data['_selLabel'] }}</h2>
+<mat-dialog-content>
+    <mat-form-field *ngIf="data && data['_dataType'] == 'string'">
+        <input type="text" matInput placeholder="Containing" name="value" [(ngModel)]="filterData">
+    </mat-form-field>
+    <mat-form-field *ngIf="data && data['_dataType'] == 'date'">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="filterData" autocomplete="off" disabled>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker disabled="false"></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field *ngIf="data && data['_dataType'] == 'dropdown'" appearance="outline">
+        <mat-label>{{ data['_selLabel'] }}</mat-label>
+        <mat-select [(value)]="filterData">
+            <mat-option *ngFor="let lov of data['lovData']" value="{{ lov.id }}">
+                {{ lov.itemName }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onApplyClick()">APPLY</button>
+    <button mat-button (click)="onCloseClick()">CLOSE</button>
+</mat-dialog-actions>

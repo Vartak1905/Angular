@@ -1,0 +1,34 @@
+.cq-ipr-rl-cont-card {
+    border: none;
+    box-shadow: none;
+    width: 100%;
+  }
+  
+  .cq-ipr-rl-cont-card .cq-row {
+    padding: 1rem 0rem;
+  }
+  
+  .cq-ipr-rl-card-cont {
+    padding: 1rem;
+  }
+  
+  .cq-ipr-rl-form {
+    width: 100%;
+  }
+  
+  .cq-ipr-rl-form-lbl {
+    margin-top: 1rem;
+    font-weight: normal !important;
+  }
+  
+  .cq-ipr-rl-form-dd {
+    width: 100%;
+  }
+  
+  .cq-ipr-rl-cont-card .jumbotron {
+    padding: 2rem 5rem;
+  }
+  
+  .cq-ipr-rl-form-lbl.lead {
+    font-size: 1.1rem;
+  }

@@ -1,0 +1,368 @@
+<div class="row cq-row">
+    <div class="col-lg-10 cq-register-form-cont">
+        <mat-card class="cq-register-form-card">
+            <mat-card-header>
+                <mat-card-title>Add/Edit User</mat-card-title>
+                <mat-card-subtitle>
+                    <app-ng-dynamic-breadcrumb fontSize="14px" bgColor="#fff" fontColor="#ff6600"
+                        lastLinkColor="#0430ad"></app-ng-dynamic-breadcrumb>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="container">
+                    <form [formGroup]="userDetails">
+
+                        <div class="container">
+                            <div class="picture-container">
+                                <div class="picture">
+                                    <img *ngIf="!fileDetails?.profile?.src" src="../../../assets/user_pic.jpg">
+                                    <img *ngIf="fileDetails?.profile?.src" [src]="fileDetails?.profile?.src"
+                                        (click)="openImageModal('profile')">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <div class="picture-container">
+                                <input type="file" (change)="onSelImage($event.target.files, 'profile')"
+                                    formControlName="userImage" placeholder="Profile Pic" autocomplete="off">
+                                <mat-error *ngIf="userDetails.get('userImage').errors?.extension">
+                                    Only JPEG's and PNG's are allowed.
+                                </mat-error>
+                            </div>
+                        </div>
+                        <div class="row cq-row">
+                            <div class="col-lg-4 col-md-4">
+                                <label class="col-form-label font-weight-normal">First Name* :</label>
+                            </div>
+                            <div class="col-lg-8 col-md-8">
+                                <mat-form-field class="mat-form-field-fw form-input">
+                                    <input matInput formControlName="firstName" placeholder="First Name"
+                                        autocomplete="off">
+                                    <mat-error *ngIf="userDetails.get('firstName').errors?.required">
+                                        Please enter first name
+                                    </mat-error>
+                                    <mat-error *ngIf="userDetails.get('firstName').errors?.pattern">
+                                        Please enter valid first Name
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row cq-row">
+                            <div class="col-lg-4 col-md-4">
+                                <label class="col-form-label font-weight-normal">Last Name* :</label>
+                            </div>
+                            <div class="col-lg-8 col-md-8">
+                                <mat-form-field class="mat-form-field-fw form-input">
+                                    <input matInput formControlName="lastName" placeholder="Last Name"
+                                        autocomplete="off">
+                                    <mat-error *ngIf="userDetails.get('lastName').errors?.required">
+                                        Please enter last Name
+                                    </mat-error>
+                                    <mat-error *ngIf="userDetails.get('lastName').errors?.pattern">
+                                        Please enter valid last Name
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row cq-row">
+                            <div class="col-lg-4 col-md-4">
+                                <label class="col-form-label font-weight-normal">Business Entity* :</label>
+                            </div>
+                            <div class="col-lg-8 col-md-8">
+                                <mat-form-field class="form-input">
+                                    <mat-select formControlName="organization"
+                                        (selectionChange)="getTeamList($event.value)">
+                                        <mat-option [value]="">-- None --</mat-option>
+                                        <mat-option *ngFor="let item of lovMetadata['orgList']" [value]="item.id">
+                                            {{ item.name }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="userDetails.get('organization').errors?.required">
+                                        Please select business entity
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row cq-row">
+                            <div class="col-lg-4 col-md-4">
+                                <label class="col-form-label font-weight-normal">Date of Birth* :</label>
+                            </div>
+                            <div class="col-lg-8 col-md-8">
+                                <mat-form-field appearance="fill" *ngIf="show_dob">
+                                    <mat-label *ngIf="!edit_mode">Choose a date</mat-label>
+                                    <mat-label *ngIf="edit_mode && show_dob">XX-XX-XXXX</mat-label>
+                                    <input matInput (ngModelChange)="handleDobChange($event)" (focus)="show_dob = false" [matDatepicker]="picker" [max]="maxDate" formControlName="birthDate"
+                                        autocomplete="off" readonly="true">
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker disabled="false"></mat-datepicker>
+                                    <mat-error *ngIf="userDetails.get('birthDate').errors?.required">
+                                        Please enter valid date of birth
+                                    </mat-error>
+                                </mat-form-field>
+                                <mat-label *ngIf="edit_mode && !show_dob">XX-XX-XXXX</mat-label>
+                            </div>
+
+                        </div>
+                        <form [formGroup]="userDetails.get('userProfile')">
+                            <div class="row cq-row">
+                                <div class="col-lg-4 col-md-4">
+                                    <label class="col-form-label font-weight-normal">Email Id* :</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <mat-form-field class="mat-form-field-fw form-input">
+                                        <input matInput formControlName="emailAddress" placeholder="Email Id"
+                                            autocomplete="off">
+                                        <mat-error
+                                            *ngIf="userDetails.get('userProfile').get('emailAddress').errors?.required">
+                                            Please enter email address
+                                        </mat-error>
+                                        <mat-error
+                                            *ngIf="userDetails.get('userProfile').get('emailAddress').errors?.pattern">
+                                            Please enter valid email address
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-lg-2 col-md-2">
+                                    <mat-icon *ngIf="userDetails.get('currentState').value == 'Active'" color="primary">
+                                        done</mat-icon>
+                                    <mat-icon *ngIf="userDetails.get('currentState').value == 'Inactive'"
+                                        color="primary">cancel</mat-icon>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row cq-row">
+                            <div class="col-lg-4 col-md-4">
+                                <label class="col-form-label font-weight-normal">Mobile Number* :</label>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <mat-form-field class="mat-form-field-fw form-input">
+                                    <input matInput type="number" formControlName="mobileNo" maxlength="10"
+                                        placeholder="Mobile Number" autocomplete="off">
+                                    <mat-error *ngIf="userDetails.get('mobileNo').errors?.required">
+                                        Please enter mobile number
+                                    </mat-error>
+                                    <mat-error *ngIf="userDetails.get('mobileNo').errors?.pattern">
+                                        Please enter valid mobile number
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-2 col-md-2">
+                                <mat-icon color="primary">cancel</mat-icon>
+                            </div>
+                        </div>
+                        <div class="row cq-row">
+                            <div class="col-lg-4 col-md-4">
+                                <label class="col-form-label font-weight-normal">Department* :</label>
+                            </div>
+                            <div class="col-lg-8 col-md-8">
+                                <mat-form-field class="form-input">
+                                    <mat-select formControlName="team" (selectionChange)="getRoleList($event.value)">
+                                        <mat-option [value]="">-- None --</mat-option>
+                                        <mat-option *ngFor="let item of lovMetadata['teams']" [value]="item.id">
+                                            {{ item.name }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="userDetails.get('team').errors?.required">
+                                        Please select a department
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row cq-row">
+                            <div class="col-lg-4 col-md-4">
+                                <label class="col-form-label font-weight-normal">Grade* :</label>
+                            </div>
+                            <div class="col-lg-8 col-md-8">
+                                <mat-form-field class="form-input">
+                                    <mat-select formControlName="grade">
+                                        <mat-option [value]="">-- None --</mat-option>
+                                        <mat-option *ngFor="let item of lovMetadata['grade']" [value]="item.itemName">
+                                            {{ item.itemName }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="userDetails.get('grade').errors?.required">
+                                        Please select a grade
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row cq-row">
+                            <div class="col-lg-4 col-md-4">
+                                <label class="col-form-label font-weight-normal">Designation/Title* :</label>
+                            </div>
+                            <div class="col-lg-8 col-md-8">
+                                <mat-form-field class="form-input">
+                                    <mat-select formControlName="designation">
+                                        <mat-option [value]="">-- None --</mat-option>
+                                        <mat-option *ngFor="let item of lovMetadata['designation']"
+                                            [value]="item.itemName">
+                                            {{ item.itemName }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="userDetails.get('designation').errors?.required">
+                                        Please select a designation
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <form [formGroup]="userDetails.get('userDetails')">
+                            <div class="row cq-row">
+                                <div class="col-lg-4 col-md-4">
+                                    <label class="col-form-label font-weight-normal">Employee Id* :</label>
+                                </div>
+                                <div class="col-lg-8 col-md-8">
+                                    <mat-form-field class="mat-form-field-fw form-input">
+                                        <input matInput formControlName="employeeId" placeholder="Employee Id"
+                                            autocomplete="off">
+                                        <mat-error
+                                            *ngIf="userDetails.get('userDetails').get('employeeId').errors?.required">
+                                            Please enter employee Id
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row cq-row">
+                                <div class="col-lg-4 col-md-4">
+                                    <label class="col-form-label font-weight-normal">CTC* :</label>
+                                </div>
+                                <div class="col-lg-8 col-md-8">
+                                    <mat-form-field class="mat-form-field-fw form-input">
+                                        <input matInput type="number" formControlName="ctc" placeholder="Enter CTC"
+                                            autocomplete="off">
+
+                                        <mat-error *ngIf="userDetails.get('userDetails').get('ctc').errors?.required">
+                                            Please enter CTC.
+                                        </mat-error>
+                                        <mat-error *ngIf="userDetails.get('userDetails').get('ctc').errors?.min">
+                                            Please enter valid CTC.
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row cq-row">
+                                <div class="col-lg-4 col-md-4">
+                                    <label class="col-form-label font-weight-normal">PAN Number :</label>
+                                </div>
+                                <div class="col-lg-8 col-md-8">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-4">
+                                            <mat-form-field class="mat-form-field-fw form-input">
+                                                <input matInput formControlName="panNumber" placeholder="PAN Number"
+                                                    autocomplete="off">
+                                                <mat-error
+                                                    *ngIf="userDetails.get('userDetails').get('panNumber').errors?.pattern">
+                                                    Please enter valid PAN number
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="fileDetails?.pan.show" class="col-lg-2 col-md-4">
+                                            <button mat-raised-button class="cq-btn-primary-color"
+                                                (click)="validatePanCard()">Verify</button>
+                                        </div>
+                                        <div *ngIf="fileDetails?.pan.show" class="col-lg-2 col-md-4 hide">
+                                            <mat-checkbox formControlName="isPanValid"> Verified</mat-checkbox>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6">
+                                            <input type="file" (change)="onSelImage($event.target.files, 'pan')"
+                                                formControlName="panImage" placeholder="PAN Number" autocomplete="off">
+                                            <mat-error
+                                                *ngIf="userDetails.get('userDetails').get('panImage').errors?.extension">
+                                                Only JPEG's and PNG's are allowed.
+                                            </mat-error>
+                                        </div>
+                                        <div *ngIf="fileDetails?.pan.show" class="col-lg-6 col-md-6">
+                                            <button mat-button (click)="openImageModal('pan')" color="primary">View PAN
+                                                Card</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row cq-row">
+                                <div class="col-lg-4 col-md-4">
+                                    <label class="col-form-label font-weight-normal">Aadhar Number :</label>
+                                </div>
+                                <div class="col-lg-8 col-md-8">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-4">
+                                            <mat-form-field class="mat-form-field-fw form-input">
+                                                <input matInput formControlName="aadhaarNumber"
+                                                    placeholder="Aadhar Number" autocomplete="off">
+                                                <!-- <mat-error
+                                                    *ngIf="userDetails.get('userDetails').get('aadhaarNumber').errors?.required">
+                                                    Please enter Aadhar number
+                                                </mat-error> -->
+                                                <mat-error
+                                                    *ngIf="userDetails.get('userDetails').get('aadhaarNumber').errors?.pattern">
+                                                Please enter valid aadhar number
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngIf="fileDetails?.aadhaar?.show" class="col-lg-2 col-md-4">
+                                            <button mat-raised-button class="cq-btn-primary-color"
+                                                (click)="validateAadharCard()">Verify</button>
+                                        </div>
+                                        <div *ngIf="fileDetails?.aadhaar?.show" class="col-lg-2 col-md-4 hide">
+                                            <mat-checkbox formControlName="isAadharValid"> Verified</mat-checkbox>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6">
+                                            <input type="file" (change)="onSelImage($event.target.files, 'aadhaar')"
+                                                formControlName="aadharImage" placeholder="Aadhar Number"
+                                                autocomplete="off">
+                                            <mat-error
+                                                *ngIf="userDetails.get('userDetails').get('aadharImage').errors?.extension">
+                                                Only JPEG's and PNG's are allowed.
+                                            </mat-error>
+                                        </div>
+                                        <div *ngIf="fileDetails?.aadhaar?.show" class="col-lg-6 col-md-6">
+                                            <button mat-button (click)="openImageModal('aadhaar')" color="primary">View
+                                                Aadhar
+                                                Card</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row cq-row">
+                            <div class="col-lg-4 col-md-4">
+                                <label class="col-form-label font-weight-normal">Role* :</label>
+                            </div>
+                            <div class="col-lg-8 col-md-8">
+                                <mat-form-field class="form-input">
+                                    <mat-select formControlName="roleList" multiple>
+                                        <mat-option [value]="">-- None --</mat-option>
+                                        <mat-option *ngFor="let item of lovMetadata['role']" [value]="item.id">
+                                            {{ item.name }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="userDetails.get('roleList').errors?.required">
+                                        Please select a role
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row cq-row">
+                            <div class="col-lg-4 col-md-4">
+                                <mat-label>Status* :</mat-label>
+                            </div>
+                            <div class="col-lg-8 col-md-8">
+                                <mat-label>{{userDetails.get('currentState').value}}</mat-label>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row pull-right">
+                        <div class="cq-add-cl-btn-cont">
+                            <button (click)="backProcess()" mat-raised-button class="cq-btn cq-form-btn">Cancel</button>
+                            <button (click)="saveUser()" mat-raised-button class="cq-btn cq-form-btn">Save</button>
+                            <button (click)="submitUserDetails()" mat-raised-button
+                                class="cq-btn cq-form-btn">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

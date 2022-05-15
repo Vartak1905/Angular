@@ -1,0 +1,35 @@
+.cq-ipr-doc-view-card {
+  border: none;
+  box-shadow: none;
+  width: 100%;
+}
+
+.cq-ipr-doc-view-card .cq-row {
+  padding: 1rem 0rem;
+}
+
+.cq-ipr-doc-view-card-cont {
+  padding: 1rem;
+}
+
+.cq-ipr-doc-view-form {
+  width: 100%;
+}
+
+.cq-ipr-doc-view-form-lbl {
+  margin-top: 1rem;
+  font-weight: normal !important;
+}
+
+.cq-ipr-doc-view-form-dd {
+  width: 100%;
+}
+
+.cq-ipr-doc-view-card .jumbotron {
+  padding: 2rem 5rem;
+  width: 100%;
+}
+
+.cq-ipr-doc-view-form-lbl.lead {
+  font-size: 1.1rem;
+}

@@ -1,0 +1,128 @@
+<div class="row cq-ipr-rl-cont">
+    <mat-card class="cq-ipr-rl-cont-card">
+        <mat-card-header>
+            <mat-card-title>IPR Process Rules</mat-card-title>
+            <mat-card-subtitle [hidden]="hideBreadCrumb">
+                <app-ng-dynamic-breadcrumb fontSize="12px" bgColor="#fff" fontColor="#ff6600" lastLinkColor="#0430ad">
+                </app-ng-dynamic-breadcrumb>
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="cq-ipr-rl-card-cont">
+            <div class="row cq-row">
+                <div class="row">
+                    <div class="jumbotron jumbotron-fluid">
+                        <app-close-btn></app-close-btn>
+                        <p class="lead">Note!</p>
+                        <p>Keep a note that process rules will be used
+                            in IPR process during RFP addition, so modify with caution.</p>
+                    </div>
+                </div>
+                <div class="col-md-12 no-padding">
+                    <mat-chip-list>
+
+                        <mat-chip *ngIf="rulesObj?.effectiveDate && is_admin" class="bg-color-white cqr-chip">
+                            <mat-icon class="no-margin primary-color cqr-chip-icon">today</mat-icon>Effective From -
+                            {{rulesObj?.effectiveDate|date:'dd/MM/yyyy'}}
+                        </mat-chip>
+                        <mat-chip *ngIf="!rulesObj?.effectiveDate && is_admin" class="bg-color-white cqr-chip">
+                            <mat-icon class="no-margin primary-color cqr-chip-icon">today</mat-icon>Effective From -
+                            {{publishDate}}
+                        </mat-chip>
+
+                        <mat-chip class="bg-color-white cqr-chip" *ngIf="is_admin">
+                            <mat-icon class="no-margin primary-color cqr-chip-icon">location_on</mat-icon>Status -
+                            {{rulesObj?.currentState}}
+                        </mat-chip>
+                    </mat-chip-list>
+                </div>
+                <div class="row">
+                    <div class="col-lg-1">
+                        <label class="cq-ipr-rl-form-lbl lead">Sr. No</label>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="cq-ipr-rl-form-lbl lead">Rule Name</label>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="cq-ipr-rl-form-lbl lead">Rule Description</label>
+                    </div>
+                    <div class="col-lg-3">
+                        <label class="cq-ipr-rl-form-lbl lead">Rule Value</label>
+                    </div>
+                </div>
+                <div class="row" *ngFor="let rule of rulesObj?.rulesCombList[0]['ruleList']; index as idx;">
+                    <div class="col-lg-1">
+                        <label class="cq-ipr-rl-form-lbl">{{ idx + 1 }}</label>
+                    </div>
+                    <div class="col-lg-3">
+                        <label class="cq-ipr-rl-form-lbl">{{ rule.ruleName }} <span *ngIf="rule?.isMandatory">*</span>
+                            <span *ngIf="rule?.ruleLabel">({{rule?.ruleLabel}})</span>
+                            <span *ngIf="rule.isNew" class="badge badge-secondary cq-accent-color">New</span>
+                        </label>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="cq-ipr-rl-form-lbl">{{ rule.ruleDesc }}</label>
+                    </div>
+                    <div class="col-lg-4 cqr-ipr-new">
+                        <mat-form-field class="form-input cq-ipr-rl-form-dd"
+                            *ngIf="rule['iprRulesOpList'][0].ruleDataType.itemValue == 'dropdown'">
+                            <mat-select [disabled]="disableForm || is_published" [(value)]="selRulesList[idx]">
+                                <mat-option *ngFor="let lov of lovDataObj[rule.ruleLov]" [value]="lov.id">
+                                    {{ lov.itemName }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field class="form-input cq-ipr-rl-form-dd"
+                            *ngIf="rule['iprRulesOpList'][0].ruleDataType.itemValue == 'text' || rule['iprRulesOpList'][0].ruleDataType.itemValue == 'number'">
+                            <input [type]="rule['iprRulesOpList'][0].ruleDataType.itemValue" [disabled]="disableForm || is_published" matInput [(ngModel)]="selRulesList[idx]"
+                                autocomplete="off" [readonly]="rule.isReadOnly">
+                        </mat-form-field>
+                        <!-- <span *ngIf="rule.isChange" class="badge badge-secondary"><i class="fas fa-arrows-alt-h"></i></span> -->
+                        <mat-icon class="cqr-eval-change-icon" [style.visibility]="rule.isChange ? 'visible' : 'hidden'">published_with_changes</mat-icon>
+                    </div>
+                </div>
+                <div *ngIf="rulesObj?.rulesCombList[0]['ruleList']?.length > 0 && is_admin" class="row">
+                    <div class="col-lg-1">
+                        <label class="cq-ipr-rl-form-lbl"></label>
+                    </div>
+                    <div class="col-lg-3">
+                        <label class="cq-ipr-rl-form-lbl">Rule Change Summary / Remarks *</label>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="cq-ipr-rl-form-lbl"></label>
+                    </div>
+                    <div class="col-lg-4">
+                        <mat-form-field class="form-input cq-ipr-rl-form-dd">
+                            <textarea maxlength="280" [disabled]="disableForm || is_published" matInput [(ngModel)]="comment"
+                                autocomplete="off"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div *ngIf="rulesObj?.rulesCombList[0]['ruleList']?.length > 0 && is_admin" class="row">
+                    <div class="col-lg-1">
+                        <label class="cq-ipr-rl-form-lbl"></label>
+                    </div>
+                    <div class="col-lg-3">
+                        <label class="cq-ipr-rl-form-lbl">Ready to Publish</label>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="cq-ipr-rl-form-lbl"></label>
+                    </div>
+                    <div class="col-lg-4">
+                        <mat-checkbox [disabled]="disableForm" [(ngModel)]="is_published" type="checkbox">
+                        </mat-checkbox>
+                    </div>
+                </div>
+            </div>
+            <div class="row cq-row pull-right">
+                <button (click)="backProcess()" mat-raised-button class="cq-accent-color cq-form-btn">Cancel</button>
+                <button [disabled]="disableForm" [ngClass]="{'btn-disable': disableForm}" (click)="onBeforeRuleSave()"
+                    mat-raised-button
+                    class="cq-accent-color cq-form-btn">{{ is_admin ? 'Save as Draft' : 'Save' }}</button>
+                <button *ngIf="hidePublish" [ngClass]="{'btn-disable': disableForm || !is_published}"
+                    [disabled]="disableForm || !is_published" (click)="onBeforePublished()" mat-raised-button
+                    class="cq-accent-color cq-form-btn">Publish</button>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

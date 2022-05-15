@@ -1,0 +1,446 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
+html,
+body {
+  height: 100%;
+  max-width: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", "Roboto", "Helvetica Neue", sans-serif;
+  font-size: 0.875rem;
+}
+
+span:focus,
+button:focus {
+  outline: none;
+  border: 0;
+}
+
+.cq-row {
+  margin: 0;
+  padding: 1rem;
+}
+
+.pad-10 {
+  padding: 10px;
+}
+
+.form-control {
+  font-size: 0.875rem;
+}
+
+.mat-form-field-fw {
+  width: 100%;
+}
+
+.cq-btn {
+  border: 0.5px solid #ff6600 !important;
+  box-shadow: none !important;
+  color: #ff6600 !important;
+}
+
+.cq-btn:hover {
+  background-color: #ff6600 !important;
+  color: #FFF !important;
+}
+
+span:focus,
+button:focus {
+  outline: none;
+  border: 0;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #aaaaaa;
+  border-radius: 25px;
+}
+
+.sv-web-anc-btn:hover {
+  text-decoration: none;
+}
+
+.cq-primary-color {
+  background-color: #e1d4c0;
+}
+
+.cq-accent-color {
+  border: 0.5px solid #ff6600 !important;
+  color: #ff6600 !important;
+}
+
+.cq-btn-primary-color {
+  background-color: #e1d4c0;
+}
+
+.cq-btn-accent-color {
+  background-color: #cdbfac;
+}
+
+.white-text {
+  color: #ffffff !important;
+}
+
+.pull-right {
+  float: right;
+}
+
+.hide {
+  display: none;
+}
+
+.cq-form-btn {
+  min-width: 8rem !important;
+  margin-left: 0.5rem !important;
+}
+
+/* Testing css for header starts */
+
+.sidebar-mini.sidebar-collapse .main-header .logo .logo-mini {
+  display: block !important;
+  font-size: 18px;
+}
+
+.sidebar-mini.sidebar-collapse .main-header .logo .logo-lg {
+  display: none !important;
+}
+
+.sidebar-mini.sidebar-collapse .main-header {
+  margin-left: 0 !important;
+}
+
+.sidebar-mini.sidebar-collapse .main-header .logo {
+  width: 60px !important;
+}
+
+aside.main-sidebar {
+  z-index: 501 !important;
+}
+/* Testing css for header ends */
+
+/* Css for hiding left bar for login page starts */
+.sidebar-mini.sidebar-collapse .cq-login-custom-wrapper {
+  margin: 0 !important;
+}
+
+@media (min-width: 992px) {
+  .sidebar-mini.sidebar-collapse .cq-login-custom-wrapper {
+    margin: 0 !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .sidebar-mini.sidebar-collapse .cq-login-custom-wrapper {
+    margin: 0 !important;
+  }
+}
+/* Css for hiding left bar for login page ends */
+
+/* Css for table filter icon starts */
+.mat-sort-header-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  margin-left: 5px;
+  opacity: 0;
+}
+
+.mat-sort-header-button:hover {
+  opacity: 0.54;
+}
+
+.mat-sort-header-button .mat-icon {
+  font-size: 14px;
+}
+
+.no-margin {
+  margin: 0 !important;
+}
+.no-padding {
+  padding: 0px;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.block {
+  display: block;
+}
+.label-style {
+  border-left: 2px solid #ff6600;
+  border-radius: 5px;
+}
+
+.primary-color {
+  color: #ff6600;
+}
+
+.primary-color-bg {
+  background-color: #ff6600;
+}
+
+.grey-color {
+  color: #c8c1c1 !important;
+}
+.cq-secondary-color {
+  background-color: #4f5d66;
+}
+.pos-relative {
+  position: relative;
+}
+.full-width {
+  width: 100% !important;
+}
+.black-color {
+  color: black !important;
+}
+/* Css for table filter icon ends */
+
+.custom-bread-crumb {
+  margin: 0;
+  padding: 0 !important;
+}
+.mat-checkbox-layout .mat-checkbox-label {
+  color: #ffffff;
+  margin-right: 5px;
+  font-size: 12px;
+}
+.company-radio.mat-radio-button.mat-radio-disabled .mat-radio-label-content {
+  color: #ffffff;
+  font-size: 12px;
+}
+.company-radio.mat-radio-button.mat-radio-disabled .mat-radio-outer-circle {
+  border-color: #fff;
+}
+.company-radio.mat-radio-disabled .mat-radio-inner-circle {
+  background-color: #fff;
+}
+.cqr-eval-publish.mat-checkbox-layout.mat-checkbox-inner-container-no-side-margin {
+  /* margin-top: 15px; */
+  background-color: #000000;
+}
+.company-radio.mat-radio-input {
+  color: #ff6600 !important;
+}
+.company-radio .mat-radio-container {
+  transform: scale(0.85);
+}
+.label-min-width {
+  min-width: 130px;
+  display: inline-block;
+}
+.mat-icon-button.mat-primary,
+.mat-stroked-button.mat-primary {
+  color: #000000;
+}
+.font-size-14 {
+  font-size: 14px !important;
+}
+.font-size-16 {
+  font-size: 16px !important;
+}
+.btn-disable {
+  background-color: #666666 !important;
+}
+
+.cq-dash-add-btn {
+  float: right;
+}
+
+.cq-dash-tb-cont-card {
+  border: none;
+  box-shadow: none;
+  width: 100%;
+}
+
+.cq-ipr-rl-cont-card {
+  border: none;
+  box-shadow: none;
+  width: 100%;
+}
+
+.cq-ipr-rl-cont-card .cq-row {
+  padding: 1rem 0rem;
+}
+
+.cq-ipr-rl-card-cont {
+  padding: 1rem;
+}
+
+.cq-ipr-rl-form {
+  width: 100%;
+}
+
+.cq-ipr-rl-form-lbl {
+  margin-top: 1rem;
+  font-weight: normal !important;
+}
+
+.cq-ipr-rl-form-dd {
+  width: 100%;
+}
+
+.cq-ipr-rl-cont-card .jumbotron {
+  padding: 2rem 5rem;
+  width: 100%;
+}
+
+.cq-ipr-rl-form-lbl.lead {
+  font-size: 1.1rem;
+}
+
+.mat-card-header-text {
+  margin-top: 10px;
+}
+
+.cq-dash-tb-cont-card .cq-row {
+  padding: 1rem 0rem;
+}
+.cqr-dash-setting-btn {
+  float: right;
+  margin: 0px 10px;
+}
+
+.mt-15 {
+  margin-top: 15px !important;
+}
+
+.color-red {
+  color: #af0e00;
+}
+.color-blue {
+  color: #2b579a;
+}
+
+.bg-color-white {
+  background-color: white !important;
+}
+.cqr-chip {
+  color: #ff6600 !important;
+  border: 1px solid #ff6600 !important;
+  padding: 1rem !important;
+}
+
+.cqr-chip-icon {
+  margin-right: 5px !important;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+.cqr-eval-publish
+  .mat-checkbox-layout
+  .mat-checkbox-inner-container-no-side-margin {
+  margin-top: 15px;
+}
+.margin-rg-20 {
+  margin-right: 20px;
+}
+.cqr-row-chip {
+  justify-content: center;
+  padding: 0.3rem !important;
+}
+.margin-bt-10 {
+  margin-bottom: 10px;
+}
+.cqr-eval-input-label {
+  min-width: 385px;
+}
+.cqr-ipr-new {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cq-ipr-doc-temp-table {
+  width: 100% !important;
+}
+
+.cq-ipr-doc-temp-table th,
+.cq-ipr-doc-temp-table td {
+  border-bottom: 1px solid #d7cece !important;
+  height: 46px !important;
+}
+.cqr-eval-input-row {
+  display: flex;
+  align-items: flex-end;
+}
+.cqr-eval-bold td {
+  font-weight: bold;
+}
+.cqr-eval-table td {
+  vertical-align: bottom;
+}
+.cqr-eval-input-change-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.cqr-eval-change-icon.mat-icon {
+  font-size: 16px;
+  height: 15px;
+  width: 15px;
+  display: block;
+  margin-left: 20px;
+  color: #6fc883;
+}
+
+.cqr-text-center{
+  text-align: center !important;
+}
+
+.ml-15{
+  margin-left:15px !important;
+}
+.ml-3{
+  margin-left:3px !important;
+}
+
+.mt-35{
+  margin-top: 35px !important;
+}
+.ml-8{
+  margin-left: 8px !important;
+}
+
+.cqr-fs-45{
+  font-size: 45px !important;
+}
+
+.cqr-fs-18{
+  font-size: 18px !important;
+}
+
+.grey-color-1{
+  color:gray;
+}
+
+.cqr-div-center{
+  margin:0 auto !important;
+}
+
+.cqr-center{
+  display: flex !important;
+  align-items: center !important;
+}
+
+.mb-35{
+  margin-bottom: 35px !important;
+}
+
+.mb-15{
+  margin-bottom: 15px !important;
+}

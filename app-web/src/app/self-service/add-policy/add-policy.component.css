@@ -1,0 +1,28 @@
+.cq-add-policy-form-cont {
+  border: none;
+  box-shadow: none;
+  width: 100%;
+}
+
+.cq-add-policy-form-cont .jumbotron {
+  padding: 2rem 5rem;
+  width: 100%;
+}
+
+.cq-add-policy-form {
+  width: 100%;
+  margin: 1rem 2rem;
+}
+
+.cq-form-row {
+  margin: 0.5rem;
+}
+
+.cq-add-policy-form-fld {
+  width: 100%;
+}
+
+.cq-add-cl-address-dd-lbl {
+  margin-right: 10px;
+  width: 20%;
+}

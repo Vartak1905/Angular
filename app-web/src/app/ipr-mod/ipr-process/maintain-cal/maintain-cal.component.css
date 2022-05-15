@@ -1,0 +1,16 @@
+.cq-ipr-maint-cal-card {
+    border: none;
+    box-shadow: none;
+    width: 100%;
+}
+  
+.cq-ipr-maint-cal-cont-card .cq-row {
+    padding: 1rem 0rem;
+}
+  
+.cq-ipr-maint-cal-cont-card-cont {
+    padding: 1rem;
+}
+.cq-ipr-maint-cal-card-header{
+    margin-left: 2.5rem !important;
+}

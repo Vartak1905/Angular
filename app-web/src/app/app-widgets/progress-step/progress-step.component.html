@@ -1,0 +1,15 @@
+<div class="row cqr-progress-cont">
+    <div class="col-md-3">
+        <mat-vertical-stepper [linear]="true" #stepper [disableRipple]="true">
+            <mat-step *ngFor="let stepData of stepList">
+                <ng-template matStepperIcon="edit">
+                    <mat-icon>done</mat-icon>
+                </ng-template>
+            </mat-step>
+        </mat-vertical-stepper>
+    </div>
+    <div class="col-md-9 cqr-div-center cqr-progress-cont-center">
+        <mat-label>{{stepName}}...</mat-label>
+        <mat-spinner [diameter]="20" ></mat-spinner><br/>
+    </div>
+</div>

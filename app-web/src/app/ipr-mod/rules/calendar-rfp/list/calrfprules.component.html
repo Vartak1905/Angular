@@ -1,0 +1,35 @@
+<div class="row cq-dash-tb-cont">
+    <mat-card class="cq-dash-tb-cont-card">
+        <mat-card-header>
+            <mat-card-title>Calendar RFP Rules</mat-card-title>
+            <mat-card-subtitle>
+                <app-ng-dynamic-breadcrumb fontSize="12px" bgColor="#fff" fontColor="#ff6600" lastLinkColor="#0430ad">
+                </app-ng-dynamic-breadcrumb>
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row cq-row">
+                <div class="col-lg-4">
+                    <!-- <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
+                            <input type="search" class="form-control" placeholder="User Name">
+                        </div>
+                    </div> -->
+                </div>
+                <div class="col-lg-8 pull-right">
+                    <button [disabled]="disableAddBtn" [ngClass]="{'btn-disable': disableAddBtn}" mat-raised-button class="cq-dash-add-btn cq-accent-color"
+                        aria-label="Register Company" (click)="addNewRules()">
+                        <mat-icon>add</mat-icon> Create new Rule Set
+                    </button>
+                    
+                </div>
+            </div>
+            <app-table-view [filter]="true" [serverSide]="false" [pageSize]="10" class="sv-ua-tableview-cont"></app-table-view>
+        </mat-card-content>
+    </mat-card>
+</div>

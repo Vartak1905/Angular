@@ -1,0 +1,791 @@
+<div class="container">
+    <form [formGroup]="companyDetails">
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Business Entity Id :</label>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <mat-label>{{companyDetails?.get("id").value}}</mat-label>
+                <!--<input matInput formControlName="id" [readonly]="true" autocomplete="off">-->
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class=" col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Business Entity Name* :</label>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <mat-form-field class="mat-form-field-fw form-input">
+                    <input matInput formControlName="companyName" placeholder="Company Name" [readonly]="edit_mode"
+                        autocomplete="off">
+                    <mat-error *ngIf="companyDetails.get('companyName').errors?.required">
+                        Please enter company name
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Legal Entity<span *ngIf="legalEntityMandatory">*</span>
+                    :</label>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <mat-form-field class="form-input">
+                    <mat-select formControlName="legalEntity" [required]="legalEntityMandatory">
+                        <mat-option [value]="">-- None --</mat-option>
+                        <mat-option *ngFor="let legalEntity of legalEntityDrodown" [value]="legalEntity.id">
+                            {{ legalEntity.itemName }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="companyDetails.get('legalEntity').errors?.required">
+                        Please select legal entity
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Business Entity Type* :</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="flex-container form-input">
+                    <div *ngFor="let hobby of companyDetails.controls?.businessEntityType?.controls; let i=index;">
+                        <mat-checkbox type="checkbox"
+                            (change)="onBusinessEntityValueChange($event,businessEntityTypeCheckBox[i])"
+                            [formControl]="hobby"></mat-checkbox>
+                        {{businessEntityTypeCheckBox[i]?.itemName}}
+                    </div>
+
+                    <mat-error
+                        *ngIf="companyDetails.get('businessEntityType')?.touched && businessEntities.length == 0">
+                        Please select atleast one item.
+                    </mat-error>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="entitiesChecked['Insurance Company']" class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Category* :</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 form-input">
+                <mat-radio-group name="category" formControlName="insuranceCategory" fxLayout="column">
+                    <mat-radio-button *ngFor="let category of categoryRadioButtons"
+                        (change)="onCategoryChange($event.value)" class="margin-rg-20" [value]="category.id">
+                        {{category.itemName}}</mat-radio-button>
+                </mat-radio-group>
+                <mat-error
+                    *ngIf="companyDetails.get('insuranceCategory').errors?.required && companyDetails.get('insuranceCategory').touched">
+                    Please select insurance category.
+                </mat-error>
+            </div>
+        </div>
+        <div *ngIf="entitiesChecked['Insurance Buyer']" class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Industry* :</label>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <mat-form-field class="form-input">
+                    <mat-select formControlName="industryType">
+                        <mat-option [value]="">-- None --</mat-option>
+                        <mat-option *ngFor="let industry of industryDropdown" [value]="industry.id">
+                            {{ industry.itemName }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="companyDetails.get('industryType').errors?.required">
+                        Please select valid industry
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div *ngIf="entitiesChecked['Insurance Buyer']" class="row cq-row">
+
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">No.of Employees<span *ngIf="noOfEmpMandatory">*</span>
+                    :</label>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <form [formGroup]="companyDetails.get('clientDetails')">
+                    <mat-form-field class="form-input">
+                        <mat-select formControlName="employeeCount" [required]="noOfEmpMandatory">
+                            <mat-option [value]="">-- None --</mat-option>
+                            <mat-option *ngFor="let noOfEmployees of noOfEmployeesDropdown" [value]="noOfEmployees.id">
+                                {{ noOfEmployees.itemValue }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="companyDetails.get('clientDetails').get('employeeCount').errors?.required">
+                            Please select no.of employees
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+            </div>
+        </div>
+    </form>
+    <form [formGroup]="companyDetails.get('clientAdmin')">
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Business Entity Admin (Primary) :</label>
+            </div>
+            <div *ngIf="assignBeaOption" class="col-lg-8 col-md-8">
+                <a mat-button href="#">Assign New Busiess Entity Admin</a>
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class=" col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Name* :</label>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <mat-form-field class="mat-form-field-fw form-input">
+                    <input matInput formControlName="name" placeholder="Name" [readonly]="readonly" autocomplete="off">
+                    <mat-error *ngIf="companyDetails.get('clientAdmin').get('name').errors?.required">
+                        Please enter name
+                    </mat-error>
+                    <mat-error *ngIf="companyDetails.get('clientAdmin').get('name').errors?.pattern">
+                        Please enter valid name
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class=" col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Designation* :</label>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <mat-form-field class="mat-form-field-fw form-input">
+                    <input matInput formControlName="designation" placeholder="Designation" [readonly]="readonly"
+                        autocomplete="off">
+                    <mat-error *ngIf="companyDetails.get('clientAdmin').get('designation').errors?.required">
+                        Please enter designation
+                    </mat-error>
+                    <mat-error *ngIf="companyDetails.get('clientAdmin').get('designation').errors?.pattern">
+                        Please enter valid designation
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class=" col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Email ID* :</label>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <mat-form-field class="mat-form-field-fw form-input">
+                    <input matInput formControlName="emailAddress" placeholder="Email ID" [readonly]="readonly"
+                        autocomplete="off">
+                    <mat-error *ngIf="companyDetails.get('clientAdmin').get('emailAddress').errors?.required">
+                        Please enter email id
+                    </mat-error>
+                    <mat-error *ngIf="companyDetails.get('clientAdmin').get('emailAddress').errors?.pattern">
+                        Please enter valid email id
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Mobile Number* :</label>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <mat-form-field class="mat-form-field-fw form-input">
+                    <input matInput type="number" formControlName="mobileNo" maxlength="10" placeholder="Mobile Number"
+                        [readonly]="readonly" autocomplete="off">
+                    <mat-error *ngIf="companyDetails.get('clientAdmin').get('mobileNo').errors?.required">
+                        Please enter mobile number
+                    </mat-error>
+                    <mat-error *ngIf="companyDetails.get('clientAdmin').get('mobileNo').errors?.pattern">
+                        Please enter valid mobile number
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Registration Requested By :</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <form [formGroup]="companyDetails">
+                    <mat-checkbox formControlName="rrbCheckBox" (change)="onRrbCheckBoxValueChange($event.checked)"
+                        class="margin-rg-20">
+                        Same as Business Entity Admin</mat-checkbox>
+                </form>
+            </div>
+        </div>
+    </form>
+    <form [formGroup]="companyDetails.get('requester')">
+        <div class="row cq-row">
+            <div class=" col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Name* :</label>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <mat-form-field class="mat-form-field-fw form-input">
+                    <input matInput formControlName="name" placeholder="Name" [readonly]="readonly" autocomplete="off">
+                    <mat-error *ngIf="companyDetails.get('requester').get('name').errors?.required">
+                        Please enter name
+                    </mat-error>
+                    <mat-error *ngIf="companyDetails.get('requester').get('name').errors?.pattern">
+                        Please enter valid Name
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class=" col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Designation* :</label>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <mat-form-field class="mat-form-field-fw form-input">
+                    <input matInput formControlName="designation" placeholder="Designation" [readonly]="readonly"
+                        autocomplete="off">
+                    <mat-error *ngIf="companyDetails.get('requester').get('designation').errors?.required">
+                        Please enter designation
+                    </mat-error>
+                    <mat-error *ngIf="companyDetails.get('requester').get('designation').errors?.pattern">
+                        Please enter valid designation
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class=" col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Email ID* :</label>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <mat-form-field class="mat-form-field-fw form-input">
+                    <input matInput formControlName="emailAddress" placeholder="Email ID" [readonly]="readonly"
+                        autocomplete="off">
+                    <mat-error *ngIf="companyDetails.get('requester').get('emailAddress').errors?.required">
+                        Please enter email id
+                    </mat-error>
+                    <mat-error *ngIf="companyDetails.get('requester').get('emailAddress').errors?.pattern">
+                        Please enter valid email id
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class=" col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Mobile Number* :</label>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <mat-form-field class="mat-form-field-fw form-input">
+                    <input matInput type="number" formControlName="mobileNo" maxlength="10" placeholder="Mobile Number"
+                        [readonly]="readonly" autocomplete="off">
+                    <mat-error *ngIf="companyDetails.get('requester').get('mobileNo').errors?.required">
+                        Please enter mobile number
+                    </mat-error>
+                    <mat-error *ngIf="companyDetails.get('requester').get('mobileNo').errors?.pattern">
+                        Please enter valid mobile number
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+    <form *ngIf="additional_detail" [formGroup]="companyDetails.get('clientDetails')">
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">PAN Number* :</label>
+            </div>
+            <div class="col-lg-8 col-md-6">
+                <div class="row">
+                    <div class="col-lg-6 col-md-4">
+                        <mat-form-field class="mat-form-field-fw form-input">
+                            <input matInput formControlName="panNumber" placeholder="PAN Number" autocomplete="off">
+                            <mat-error *ngIf="companyDetails.get('clientDetails').get('panNumber').errors?.required">
+                                Please enter PAN number
+                            </mat-error>
+                            <mat-error *ngIf="companyDetails.get('clientDetails').get('panNumber').errors?.pattern">
+                                Please enter valid PAN number
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="fileDetails.pan.show" class="col-lg-2 col-md-4">
+                        <mat-checkbox formControlName="panValid"> Is Valid</mat-checkbox>
+                    </div>
+                    <div *ngIf="fileDetails.pan.show" class="col-lg-4 col-md-4">
+                        <button *ngIf="showPanAddValidateButton" mat-button (click)="onValidatePanCard()"
+                            color="primary">Validate PAN Card</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <input type="file" (change)="onSelImage($event.target.files, 'pan')" formControlName="panImage"
+                            placeholder="PAN Number" autocomplete="off">
+                        <p>{{selectedFile["pan"]?.name}}</p>
+                        <mat-error *ngIf="companyDetails.get('clientDetails').get('panImage').errors?.extension">
+                            Only JPEG's and PNG's are allowed.
+                        </mat-error>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <button *ngIf="fileDetails.pan.show" mat-button (click)="openImageModal('pan')"
+                            color="primary">View PAN
+                            Card</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">GST Number* :</label>
+            </div>
+            <div class="col-lg-8 col-md-6">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <mat-form-field class="mat-form-field-fw form-input">
+                            <input matInput formControlName="gstNumber" placeholder="GST Number" autocomplete="off">
+                            <mat-error *ngIf="companyDetails.get('clientDetails').get('gstNumber').errors?.required">
+                                Please enter GST number
+                            </mat-error>
+                            <mat-error *ngIf="companyDetails.get('clientDetails').get('gstNumber').errors?.pattern">
+                                Please enter valid GST number
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <input type="file" (change)="onSelImage($event.target.files, 'gst')" formControlName="gstImage"
+                            autocomplete="off">
+                        <p>{{selectedFile["gst"]?.name}}</p>
+                        <mat-error *ngIf="companyDetails.get('clientDetails').get('gstImage').errors?.extension">
+                            Only JPEG's and PNG's are allowed.
+                        </mat-error>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <button *ngIf="fileDetails.gst.show" mat-button (click)="openImageModal('gst')"
+                            color="primary">View GST
+                            Certificate</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">ROC Details* :</label>
+            </div>
+            <div class="col-lg-8 col-md-6">
+                <div class="row">
+                    <div class="col-lg-6 col-md-4">
+                        <mat-form-field class="mat-form-field-fw form-input">
+                            <input matInput formControlName="cinNumber" placeholder="CIN Number" autocomplete="off">
+                            <mat-error *ngIf="companyDetails.get('clientDetails').get('cinNumber').errors?.required">
+                                Please enter ROC details
+                            </mat-error>
+                            <mat-error *ngIf="companyDetails.get('clientDetails').get('cinNumber').errors?.pattern">
+                                Please enter valid ROC details
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="fileDetails.cin.show" class="col-lg-2 col-md-4">
+                        <mat-checkbox formControlName="cinValid"> Is Valid</mat-checkbox>
+                    </div>
+                    <div *ngIf="fileDetails.cin.show" class="col-lg-4 col-md-4">
+                        <button mat-button color="primary">Validate CIN
+                            Details</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <input type="file" (change)="onSelImage($event.target.files, 'cin')" formControlName="cinImage"
+                            placeholder="CIN Details" autocomplete="off">
+                        <p>{{selectedFile["cin"]?.name}}</p>
+                        <mat-error *ngIf="companyDetails.get('clientDetails').get('cinImage').errors?.extension">
+                            Only JPEG's and PNG's are allowed.
+                        </mat-error>
+                    </div>
+                    <div *ngIf="fileDetails.cin.show" class="col-lg-6 col-md-6">
+                        <button mat-button (click)="openImageModal('cin')" color="primary">View Incorporation
+                            Certificate</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form *ngIf="additional_detail" [formGroup]="companyDetails.get('clientDetails').get('officeAddress')">
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Registered Office Address* :</label>
+            </div>
+            <div class="col-lg-8 col-md-6">
+                <mat-form-field class="mat-form-field-fw form-input">
+                    <input matInput formControlName="line1" placeholder="Address Line 1" [readonly]="readonly"
+                        autocomplete="off">
+                    <mat-error
+                        *ngIf="companyDetails.get('clientDetails').get('officeAddress').get('line1').errors?.required">
+                        Please enter line1
+                    </mat-error>
+                    <mat-error
+                        *ngIf="companyDetails.get('clientDetails').get('officeAddress').get('line1').errors?.minlength">
+                        Please enter minimum 2 character
+                    </mat-error>
+                </mat-form-field>
+
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal"> </label>
+            </div>
+            <div class="col-lg-8 col-md-6">
+                <mat-form-field class="mat-form-field-fw form-input">
+                    <input matInput formControlName="line2" placeholder="Address Line 2" [readonly]="readonly"
+                        autocomplete="off">
+                    <mat-error
+                        *ngIf="companyDetails.get('clientDetails').get('officeAddress').get('line2').errors?.required">
+                        Please enter line2
+                    </mat-error>
+                    <mat-error
+                        *ngIf="companyDetails.get('clientDetails').get('officeAddress').get('line2').errors?.minlength">
+                        Please enter minimum 2 character
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal"></label>
+            </div>
+            <div class="col-lg-8 col-md-6">
+                <mat-form-field class="mat-form-field-fw form-input">
+                    <input matInput formControlName="area" placeholder="Area" [readonly]="readonly" autocomplete="off">
+                    <mat-error
+                        *ngIf="companyDetails.get('clientDetails').get('officeAddress').get('area').errors?.required">
+                        Please enter area
+                    </mat-error>
+                    <mat-error
+                        *ngIf="companyDetails.get('clientDetails').get('officeAddress').get('area').errors?.minlength">
+                        Please enter minimum 2 character
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal"></label>
+            </div>
+            <div class="col-lg-8 col-md-6">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <label class="col-form-label font-weight-normal cq-add-cl-address-dd-lbl">Country</label>
+                        <mat-form-field class=" form-input">
+                            <mat-select formControlName="country">
+                                <mat-option [value]="">-- None --</mat-option>
+                                <mat-option *ngFor="let country of countries" [value]="country.id">
+                                    {{ country.itemValue }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error
+                                *ngIf="companyDetails.get('clientDetails').get('officeAddress').get('country').errors?.required">
+                                Please select country
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <label class="col-form-label font-weight-normal cq-add-cl-address-dd-lbl">State</label>
+                        <mat-form-field class=" form-input">
+                            <mat-select formControlName="state">
+                                <mat-option [value]="">-- None --</mat-option>
+                                <mat-option *ngFor="let state of states" [value]="state.id">
+                                    {{ state.itemValue }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error
+                                *ngIf="companyDetails.get('clientDetails').get('officeAddress').get('state').errors?.required">
+                                Please select state
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal"></label>
+            </div>
+            <div class="col-lg-8 col-md-6">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <label class="col-form-label font-weight-normal cq-add-cl-address-dd-lbl">Pincode</label>
+                        <mat-form-field class=" form-input">
+                            <mat-select formControlName="pincode">
+                                <mat-option [value]="">-- None --</mat-option>
+                                <mat-option *ngFor="let pincode of pincodes" [value]="pincode.id">
+                                    {{ pincode.itemValue }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error
+                                *ngIf="companyDetails.get('clientDetails').get('officeAddress').get('pincode').errors?.required">
+                                Please select pincode
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <label class="col-form-label font-weight-normal cq-add-cl-address-dd-lbl">City</label>
+                        <mat-form-field class=" form-input">
+                            <mat-select formControlName="city">
+                                <mat-option [value]="">-- None --</mat-option>
+                                <mat-option *ngFor="let city of cities" [value]="city.id">
+                                    {{ city.itemValue }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error
+                                *ngIf="companyDetails.get('clientDetails').get('officeAddress').get('city').errors?.required">
+                                Please select city
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Address for Correspondence*:</label>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-5">
+                <form [formGroup]="companyDetails.get('clientDetails')">
+                    <mat-checkbox formControlName="sameAsRegOff" (change)="copyRegisteredOfficeAddress($event.checked)"
+                        class="margin-rg-20">
+                        Same as Registered office</mat-checkbox>
+                </form>
+            </div>
+        </div>
+    </form>
+    <form *ngIf="additional_detail" [formGroup]="companyDetails.get('clientDetails').get('corrAddress')">
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+            </div>
+            <div class="col-lg-8 col-md-6">
+                <mat-form-field class="mat-form-field-fw form-input">
+                    <input matInput formControlName="line1" placeholder="Address Line 1" [readonly]="readonly"
+                        autocomplete="off">
+                    <mat-error
+                        *ngIf="companyDetails.get('clientDetails').get('corrAddress').get('line1').errors?.required">
+                        Please enter line1
+                    </mat-error>
+                    <mat-error
+                        *ngIf="companyDetails.get('clientDetails').get('corrAddress').get('line1').errors?.minlength">
+                        Please enter minimum 2 character
+                    </mat-error>
+                </mat-form-field>
+
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal"> </label>
+            </div>
+            <div class="col-lg-8 col-md-6">
+                <mat-form-field class="mat-form-field-fw form-input">
+                    <input matInput formControlName="line2" placeholder="Address Line 2" [readonly]="readonly"
+                        autocomplete="off">
+                    <mat-error
+                        *ngIf="companyDetails.get('clientDetails').get('corrAddress').get('line2').errors?.required">
+                        Please enter line2
+                    </mat-error>
+                    <mat-error
+                        *ngIf="companyDetails.get('clientDetails').get('corrAddress').get('line2').errors?.minlength">
+                        Please enter minimum 2 character
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal"></label>
+            </div>
+            <div class="col-lg-8 col-md-6">
+                <mat-form-field class="mat-form-field-fw form-input">
+                    <input matInput formControlName="area" placeholder="Area" [readonly]="readonly" autocomplete="off">
+                    <mat-error
+                        *ngIf="companyDetails.get('clientDetails').get('corrAddress').get('area').errors?.required">
+                        Please enter area
+                    </mat-error>
+                    <mat-error
+                        *ngIf="companyDetails.get('clientDetails').get('corrAddress').get('area').errors?.minlength">
+                        Please enter minimum 2 character
+                    </mat-error>
+                </mat-form-field>
+
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal"></label>
+            </div>
+            <div class="col-lg-8 col-md-6">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <label class="col-form-label font-weight-normal cq-add-cl-address-dd-lbl">Country</label>
+                        <mat-form-field class=" form-input">
+                            <mat-select formControlName="country">
+                                <mat-option [value]="">-- None --</mat-option>
+                                <mat-option *ngFor="let country of countries" [value]="country.id">
+                                    {{ country.itemValue }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error
+                                *ngIf="companyDetails.get('clientDetails').get('corrAddress').get('country').errors?.required">
+                                Please select country
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <label class="col-form-label font-weight-normal cq-add-cl-address-dd-lbl">State</label>
+                        <mat-form-field class=" form-input">
+                            <mat-select formControlName="state">
+                                <mat-option [value]="">-- None --</mat-option>
+                                <mat-option *ngFor="let state of states" [value]="state.id">
+                                    {{ state.itemValue }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error
+                                *ngIf="companyDetails.get('clientDetails').get('corrAddress').get('state').errors?.required">
+                                Please select state
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal"></label>
+            </div>
+            <div class="col-lg-8 col-md-6">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <label class="col-form-label font-weight-normal cq-add-cl-address-dd-lbl">Pincode</label>
+                        <mat-form-field class=" form-input">
+                            <mat-select formControlName="pincode">
+                                <mat-option [value]="">-- None --</mat-option>
+                                <mat-option *ngFor="let pincode of pincodes" [value]="pincode.id">
+                                    {{ pincode.itemValue }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error
+                                *ngIf="companyDetails.get('clientDetails').get('corrAddress').get('pincode').errors?.required">
+                                Please select pincode
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <label class="col-form-label font-weight-normal cq-add-cl-address-dd-lbl">City</label>
+                        <mat-form-field class=" form-input">
+                            <mat-select formControlName="city">
+                                <mat-option [value]="">-- None --</mat-option>
+                                <mat-option *ngFor="let city of cities" [value]="city.id">
+                                    {{ city.itemValue }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error
+                                *ngIf="companyDetails.get('clientDetails').get('corrAddress').get('city').errors?.required">
+                                Please select city
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form *ngIf="additional_detail" [formGroup]="companyDetails.get('adminDetails')">
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Account Executive :</label>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <mat-form-field class="mat-form-field-fw">
+                    <input matInput formControlName="name" [readonly]="true" autocomplete="off">
+                </mat-form-field>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-5">
+                <button *ngIf="showAePanGstViewButton" mat-button color="primary">Assign New Account Executive</button>
+            </div>
+        </div>
+    </form>
+    <form *ngIf="additional_detail" [formGroup]="companyDetails">
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Source :</label>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <mat-form-field class="mat-form-field-fw">
+                    <!-- <label formControlName="source"></label> -->
+                    <input matInput formControlName="source" [readonly]="true" autocomplete="off">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row cq-row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Registration Status<span
+                        *ngIf="regStatusMandatory">*</span> :</label>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <mat-form-field class="mat-form-field-fw">
+                    <!-- <label formControlName="registrationStatus"></label> -->
+                    <input matInput formControlName="registrationStatus" [readonly]="true" autocomplete="off">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row cq-row" *ngIf="edit_mode">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Mark Record Inactive :</label>
+            </div>
+            <mat-checkbox type="checkbox" (change)="onInActivationCange($event)" formControlName="isInActive">
+            </mat-checkbox>
+        </div>
+        <div class="row cq-row" *ngIf="companyDetails.get('isInActive').value">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Inactivation Reason<span>*</span> :</label>
+            </div>
+            <div class="col-lg-5 col-md-6 col-sm-6">
+                <mat-form-field>
+                    <mat-select formControlName="inactivationReason" [required]="InactivationMandatory">
+                        <mat-option [value]="">-- None --</mat-option>
+                        <mat-option *ngFor="let reason of inactivationReasons" [value]="reason.id">
+                            {{ reason.itemName }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="companyDetails.get('inactivationReason').errors?.required">
+                        Please select inactivation reason
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row cq-row" *ngIf="companyDetails.get('isInActive').value">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Remarks :<span *ngIf="InactivationMandatory">*</span>
+                </label>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-5">
+                <mat-form-field class="mat-form-field-fw" appearance="fill">
+                    <textarea matInput formControlName="inactivationRemarks" [readonly]="readonly"
+                        [required]="InactivationMandatory" autocomplete="off"></textarea>
+                    <mat-error *ngIf="companyDetails.get('inactivationRemarks').errors?.required">
+                        Please enter inactivation remarks
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row cq-row" *ngIf="comment!=null">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <label class="col-form-label font-weight-normal">Send Back Comment :</label>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-5">
+                <mat-label>{{ comment }}</mat-label>
+            </div>
+        </div>
+    </form>
+    <div class="row pull-right">
+        <div class="cq-add-cl-btn-cont">
+            <button (click)="backProcess()" mat-raised-button class="cq-btn cq-form-btn">Cancel</button>
+
+            <!-- this submit button will register new user -->
+            <button *ngIf="add_mode && companyDetails?.value?.registrationStatus != 'InActive'" (click)="saveDetails()"
+                mat-raised-button class="cq-btn cq-form-btn">Submit</button>
+
+            <!-- this save button will update the details of already registered company -->
+            <button *ngIf="edit_mode && companyDetails?.value?.registrationStatus != 'Under Approval'"
+                (click)="updateDetails()" mat-raised-button class="cq-btn cq-form-btn">Save</button>
+
+            <!-- this submit button will generate a request for the company and change the state of the company to under approval -->
+            <button *ngIf="edit_mode && companyDetails?.value?.registrationStatus != 'InActive'"
+                (click)="onBeforeSubmit()" mat-raised-button class="cq-btn cq-form-btn">Submit</button>
+        </div>
+    </div>
+</div>

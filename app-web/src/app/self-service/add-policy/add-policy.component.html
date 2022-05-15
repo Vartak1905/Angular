@@ -1,0 +1,282 @@
+<div class="row">
+    <div class="col-lg-12 cq-register-form-cont">
+        <mat-card class="cq-add-policy-form-cont">
+            <mat-card-header>
+                <mat-card-title>Add/Edit Policy</mat-card-title>
+                <mat-card-subtitle>
+                    <app-ng-dynamic-breadcrumb fontSize="12px" bgColor="#fff" fontColor="#ff6600"
+                        lastLinkColor="#0430ad"></app-ng-dynamic-breadcrumb>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="row cq-row">
+                    <div class="jumbotron jumbotron-fluid">
+                        <app-close-btn></app-close-btn>
+                        <p class="lead">Note!</p>
+                        <p>Keep a note that this screen is only meant for adding policies which are not purchased via
+                            the CQRWorld platform.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <form [formGroup]="policyDetails" class="cq-add-policy-form">
+                        <div class="row cq-form-row">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <label class="col-form-label font-weight-normal">Policy ID :</label>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <mat-label>{{policyDetails?.get("id").value}}</mat-label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class=" col-lg-6 col-md-6 col-sm-6">
+                                        <label class="col-form-label font-weight-normal">Policy Number : *</label>
+                                    </div>
+                                    <div class="col-lg-6 col-md-8">
+                                        <mat-form-field class="mat-form-field-fw form-input">
+                                            <input matInput formControlName="policyNum" placeholder="Policy Number"
+                                                autocomplete="off" [readonly]="readonly">
+                                            <mat-error *ngIf="policyDetails.get('policyNum').errors?.required">
+                                                Please enter policy number.
+                                            </mat-error>
+                                            <mat-error *ngIf="policyDetails.get('policyNum').errors?.pattern">
+                                                Please enter valid policy number.
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row cq-form-row">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <label class="col-form-label font-weight-normal">Policy Type* :</label>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <mat-form-field appearance="fill" class="mat-form-field-fw form-input">
+                                            <mat-select formControlName="policyType" [disabled]="readonly">
+                                                <mat-option [value]="">-- None --</mat-option>
+                                                <mat-option *ngFor="let item of lovDataObj['policyType']"
+                                                    [value]="item?.itemName">
+                                                    {{ item.itemName }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <mat-error
+                                            *ngIf="policyDetails.get('policyType').errors?.required && policyDetails.get('policyType').touched">
+                                            Please select policy type.
+                                        </mat-error>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <label class="col-form-label font-weight-normal">Insurance Company* :</label>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <mat-form-field appearance="fill" class="mat-form-field-fw form-input">
+                                            <mat-select formControlName="clientId" [disabled]="readonly">
+                                                <mat-option [value]="">-- None --</mat-option>
+                                                <mat-option *ngFor="let item of lovDataObj['insCompList']"
+                                                    [value]="item?.id">
+                                                    {{ item.companyName }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <mat-error
+                                            *ngIf="policyDetails.get('clientId').errors?.required && policyDetails.get('clientId').touched">
+                                            Please select insurance company.
+                                        </mat-error>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row cq-form-row">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <label class="col-form-label font-weight-normal">Company Name* :</label>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <mat-form-field class="mat-form-field-fw form-input">
+                                            <mat-select formControlName="companyName" [disabled]="readonly">
+                                                <mat-option [value]="">-- None --</mat-option>
+                                                <mat-option *ngFor="let org of lovDataObj['orgList']"
+                                                    [value]="org.name">
+                                                    {{ org.name }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <label class="col-form-label font-weight-normal">Policy Term :</label>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <mat-form-field class="mat-form-field-fw form-input">
+                                            <input matInput formControlName="policyTerm" placeholder="Policy Term"
+                                                autocomplete="off" [readonly]="readonly">
+                                            <mat-error *ngIf="policyDetails.get('policyTerm').errors?.required">
+                                                Please enter policy term.
+                                            </mat-error>
+                                            <mat-error *ngIf="policyDetails.get('policyTerm').errors?.pattern">
+                                                Please enter valid policy term.
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row cq-form-row">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <label class="col-form-label font-weight-normal">Policy Issue Date * :</label>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <mat-form-field appearance="fill" class="cq-add-policy-form-fld">
+                                            <mat-label>Choose a date</mat-label>
+                                            <input matInput [matDatepicker]="picker2" formControlName="policyIssueDate"
+                                                autocomplete="off" disabled>
+                                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+                                            <mat-error *ngIf="policyDetails.get('policyIssueDate').errors?.required">
+                                                Please select valid policy issue date.
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <label class="col-form-label font-weight-normal">Risk Commencement Date *
+                                            :</label>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <mat-form-field appearance="fill" class="cq-add-policy-form-fld">
+                                            <mat-label>Choose a date</mat-label>
+                                            <input matInput [matDatepicker]="picker3" formControlName="riskComncDate"
+                                                autocomplete="off" disabled>
+                                            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker3 disabled="false"></mat-datepicker>
+                                            <mat-error *ngIf="policyDetails.get('riskComncDate').errors?.required">
+                                                Please select risk commencement date.
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row cq-form-row">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <label class="col-form-label font-weight-normal">Next Premium Payment Date *
+                                            :</label>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <mat-form-field appearance="fill" class="cq-add-policy-form-fld">
+                                            <mat-label>Choose a date</mat-label>
+                                            <input matInput [matDatepicker]="picker4"
+                                                formControlName="nextPremiumPayDate" autocomplete="off" disabled>
+                                            <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker4 disabled="false"></mat-datepicker>
+                                            <mat-error *ngIf="policyDetails.get('nextPremiumPayDate').errors">
+                                                Please select valid next premium payment date.
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <form [formGroup]="policyDetails.get('orgPolicy')">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6">
+                                            <label class="col-form-label font-weight-normal">Policy Renewal Date *
+                                                :</label>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <mat-form-field appearance="fill" class="cq-add-policy-form-fld">
+                                                <mat-label>Choose a date</mat-label>
+                                                <input matInput [matDatepicker]="picker"
+                                                    formControlName="policyRenewalDate" autocomplete="off" disabled>
+                                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker disabled="false"></mat-datepicker>
+                                                <mat-error
+                                                    *ngIf="policyDetails.get('orgPolicy')?.get('policyRenewalDate').errors?.required">
+                                                    Please enter policy renewal date.
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row cq-form-row">
+                            <div class="col-lg-6">
+                                <form [formGroup]="policyDetails.get('orgPolicy')">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label class="col-form-label font-weight-normal">Policy Source * :</label>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <mat-form-field class="mat-form-field-fw form-input">
+                                                <mat-select formControlName="source" [disabled]="true">
+                                                    <mat-option [value]="">-- None --</mat-option>
+                                                    <mat-option *ngFor="let source of lovDataObj['policySource']"
+                                                        [value]="source?.itemName">
+                                                        {{ source.itemName }}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error
+                                                    *ngIf="policyDetails.get('orgPolicy')?.get('source').errors?.required && policyDetails.get('orgPolicy')?.get('source').touched">
+                                                    Please select policy status.
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-lg-6">
+                                <form [formGroup]="policyDetails.get('orgPolicy')">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6">
+                                            <label class="col-form-label font-weight-normal">No. of Members *
+                                                :</label>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <mat-form-field class="mat-form-field-fw form-input">
+                                                <input matInput formControlName="employeeCount"
+                                                    placeholder="No of Members" autocomplete="off"
+                                                    [readonly]="readonly">
+                                                <mat-error
+                                                    *ngIf="policyDetails.get('orgPolicy')?.get('employeeCount').errors?.required">
+                                                    Please enter no of members.
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row cq-row pull-right">
+                            <button (click)="backProcess()" mat-raised-button class="cq-btn cq-form-btn">Cancel</button>
+                            <button *ngIf="!readonly" (click)="updateDetails()" mat-raised-button class="cq-btn cq-form-btn">Save</button>
+                            <button  *ngIf="!readonly" (click)="submitDetails()" mat-raised-button
+                                class="cq-btn cq-form-btn">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

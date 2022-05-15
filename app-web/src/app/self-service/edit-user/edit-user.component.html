@@ -1,0 +1,224 @@
+<div class="row cq-register-form-cont">
+    <mat-card class="cq-register-form-card">
+        <mat-card-header>
+            <mat-card-title>User Profile</mat-card-title>
+            <mat-card-subtitle>
+                <app-ng-dynamic-breadcrumb fontSize="14px" bgColor="#fff" fontColor="#ff6600" lastLinkColor="#0430ad">
+                </app-ng-dynamic-breadcrumb>
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="userFromGrp">
+                <div class="row cq-row cq-up-view-ph-cont cq-secondary-color white-text">
+                    <div class="col-lg-2 col-md-2 no-padding">
+                        <div class="profile-img-container">
+                            <img src="{{fileDetails['profile']['src']!=null?fileDetails['profile']['src']:'../../../assets/user.jpg'}}"
+                                class="profile-image" alt="User Image">
+                            <input hidden #profileupload type="file"
+                                (change)="onSelImage($event.target.files, 'profile')" formControlName="profileImage"
+                                placeholder="Profile Image" autocomplete="off">
+                            <mat-error *ngIf="userFromGrp.get('profileImage').errors?.extension">
+                                Only JPEG's and PNG's are allowed.
+                            </mat-error>
+
+                        </div>
+                        <button *ngIf="isFormEdit" (click)="profileupload.click()" matTooltip="" mat-mini-fab
+                            color="primary" class="profile-img-btn cq-accent-color">
+                            <mat-icon>camera_alt</mat-icon>
+                        </button>
+
+                    </div>
+                    <div class="col-lg-9 col-md-9">
+                        <mat-list role="list" class="white-text">
+                            <mat-list-item role="listitem">
+                                <mat-label>
+                                    <b class="font-size-18">
+                                        {{ userFromGrp.get('firstName').value + ' ' +
+                                        (userFromGrp.get('lastName').value!=null?userFromGrp.get('lastName').value:'')}}</b>
+                                </mat-label>
+                            </mat-list-item>
+                            <mat-list-item role="listitem">
+                                <mat-label>
+                                    <p>{{userFromGrp.get('designation').value}}</p>
+                                </mat-label>
+                            </mat-list-item>
+                            <mat-list-item role="listitem">
+                                <mat-label>
+                                    <i class="fa fa-envelope cq-up-view-ph-icon"></i><span
+                                        class="pl-5">{{userFromGrp?.get("userProfile")?.get('emailAddress').value}}</span>
+
+                                    <i *ngIf="userFromGrp.get('currentState').value == 'Active'"
+                                        class="fas fa-check primary-color pl-5"></i>
+                                    <i *ngIf="userFromGrp.get('currentState').value == 'Inactive'"
+                                        class="fas fa-exclamation-circle primary-color pl-5"></i>
+                                </mat-label>
+                            </mat-list-item>
+                            <mat-list-item role="listitem">
+                                <mat-label>
+                                    <i class="fas fa-phone-alt cq-up-view-ph-icon"></i><span
+                                        class="pl-5">{{userFromGrp.get('mobileNo').value}}</span>
+                                    <i class="fas fa-exclamation-circle primary-color pl-5"></i>
+                                </mat-label>
+                            </mat-list-item>
+                        </mat-list>
+                    </div>
+                    <div class="col-lg-1 col-md-1 no-padding">
+                        <i class="cursor-pointer font-size-18 fas fa-edit pull-right" (click)="onEdit()"></i>
+                    </div>
+                </div>
+                <div class="row cq-row">
+                    <div class="col-lg-3 col-md-3 label-style">
+                        <div>
+                            <mat-label class="grey-color">Status</mat-label>
+                        </div>
+                        <div>
+                            <mat-label><b>{{userFromGrp.get('currentState').value}}</b></mat-label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 label-style">
+                        <div class="grey-color">
+                            <mat-label>Business Entity</mat-label>
+                        </div>
+                        <div>
+                            <mat-label><b>{{userFromGrp?.get("organization").value}}</b></mat-label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 label-style">
+                        <div>
+                            <mat-label class="grey-color">Date of Birth</mat-label>
+                        </div>
+                        <div>
+                            <mat-label><b>{{userFromGrp.get('birthDate').value}}</b></mat-label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 label-style">
+                        <div *ngIf="!isFormEdit">
+                            <mat-label class="grey-color">Mobile Number</mat-label>
+                        </div>
+                        <div *ngIf="isFormEdit">
+                            <mat-form-field class="mat-form-field-fw form-input">
+                                <input matInput type="number" formControlName="mobileNo" maxlength="10"
+                                    placeholder="Mobile Number" autocomplete="off">
+                                <mat-error *ngIf="userFromGrp.get('mobileNo').errors?.required">
+                                    Please enter mobile number
+                                </mat-error>
+                                <mat-error *ngIf="userFromGrp.get('mobileNo').errors?.pattern">
+                                    Please enter valid mobile number
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div *ngIf="!isFormEdit">
+                            <mat-label><b>{{userFromGrp.get('mobileNo').value}}</b></mat-label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row cq-row">
+                    <div class="col-lg-3 col-md-3 label-style">
+                        <div>
+                            <mat-label class="grey-color">Department</mat-label>
+                        </div>
+                        <div>
+                            <mat-label>
+                                <b>{{userFromGrp?.get("team").value}}</b>
+                            </mat-label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 label-style">
+                        <div>
+                            <mat-label class="grey-color">Designation/Title
+                            </mat-label>
+                        </div>
+                        <div>
+                            <mat-label><b>{{userFromGrp.get('designation').value}}</b></mat-label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 label-style">
+                        <div>
+                            <mat-label class="grey-color">Grade
+                            </mat-label>
+                        </div>
+                        <div>
+                            <mat-label class="col-form-label font-weight-normal">
+                                <b>{{ userFromGrp?.get("userDetails")?.get("grade").value }}</b>
+                            </mat-label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 label-style">
+                        <div>
+                            <mat-label class="grey-color">Employee Id
+                            </mat-label>
+                        </div>
+                        <div>
+                            <mat-label class="col-form-label font-weight-normal">
+                                <b>{{ userFromGrp.get('userDetails').get('employeeId').value }}</b>
+                            </mat-label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row cq-row">
+                    <div class="col-lg-3 col-md-3 label-style">
+                        <div>
+                            <mat-label class="grey-color">CTC</mat-label>
+                        </div>
+                        <div>
+                            <mat-label class="col-form-label font-weight-normal">
+                                <b>{{userFromGrp.get('userDetails').get('ctc').value}}</b>
+                            </mat-label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 label-style">
+                        <div>
+                            <mat-label class="grey-color">PAN Number</mat-label>
+                        </div>
+                        <div>
+                            <div class="col-lg-3 col-md-3 no-padding">
+                                <mat-label>
+                                    <b>{{userFromGrp.get('userDetails').get('panNumber').value}}</b>
+                                </mat-label>
+                            </div>
+                            <div class="col-lg-1 col-md-1">
+                                <i class="fa fa-eye cursor-pointer" *ngIf="fileDetails?.pan?.show" mat-button
+                                    (click)="openImageModal('pan')" color="primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 label-style">
+                        <div>
+                            <mat-label class="grey-color">Aadhaar Number</mat-label>
+                        </div>
+                        <div>
+                            <div class="col-lg-4 col-md-4 no-padding">
+                                <mat-label>
+                                    <b>{{userFromGrp.get('userDetails').get('aadhaarNumber').value}}</b>
+                                </mat-label>
+                            </div>
+                            <div class="col-lg-1 col-md-1">
+                                <i class="fa fa-eye cursor-pointer" *ngIf="fileDetails?.aadhaar?.show" mat-button
+                                    (click)="openImageModal('aadhaar')" color="primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 label-style">
+                        <div>
+                            <mat-label class="grey-color">Role</mat-label>
+                        </div>
+                        <div>
+                            <mat-label><b>{{roles}}</b></mat-label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+        <mat-card-actions>
+            <div class="row cq-row pull-right">
+                <div class="cq-add-cl-btn-cont">
+                    <button (click)="backProcess()" mat-raised-button class="cq-btn cq-form-btn">Cancel</button>
+                    <button *ngIf="isFormEdit" (click)="saveUser()" mat-raised-button
+                        class="cq-btn cq-form-btn">Save</button>
+                    <button *ngIf="isFormEdit" (click)="submitUser()" mat-raised-button
+                        class="cq-btn cq-form-btn">Submit</button>
+                </div>
+            </div>
+        </mat-card-actions>
+    </mat-card>
+</div>

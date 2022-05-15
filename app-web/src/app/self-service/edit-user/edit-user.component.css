@@ -1,0 +1,110 @@
+.cq-register-form-cont {
+  width: 100%;
+}
+
+.cq-register-form-card {
+  border: none;
+  box-shadow: none;
+  width: 100%;
+  padding-top: 0;
+}
+
+.margin-rg-20 {
+  margin-right: 20px;
+}
+
+.mat-form-field-type-mat-select {
+  width: 50%;
+}
+
+.cq-up-view-ph-cont {
+  margin-bottom: 2rem;
+  padding: 2rem 1rem 1.5rem;
+}
+
+.mat-list-base .mat-list-item {
+  color: #FFF;
+  height: 30px;
+}
+
+.cq-up-view-ph-icon {
+  margin-right: 0.5rem;
+}
+
+.cq-register-form-card .mat-card-header-text {
+  margin: 0.5rem 0;
+}
+
+.picture-src {
+  width: 100%;
+}
+
+.font-size-18 {
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+
+.font-size-16 {
+  font-size: 16px !important;
+}
+
+.font-size-14 {
+  font-size: 14px !important;
+}
+
+.pl-5 {
+  padding-left: 5px !important;
+}
+
+.ml-15 {
+  margin-left: 15px !important;
+}
+
+.profile-img-container {
+  width: 100%;
+  height: 160px;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  margin: 0;
+}
+
+.profile-image {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-height: 100%;
+  min-width: 100%;
+  max-height: 100%;
+  transform: translate(-50%, -50%);
+  object-fit: contain;
+  background-clip: content-box;
+  margin: auto;
+}
+
+.profile-img-container input[type="file"] {
+  cursor: pointer;
+  display: block;
+  height: 100%;
+  left: 0;
+  opacity: 0 !important;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.profile-img-btn {
+  position: absolute;
+  bottom: 0;
+  right: -1rem;
+  z-index: 999 !important;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}

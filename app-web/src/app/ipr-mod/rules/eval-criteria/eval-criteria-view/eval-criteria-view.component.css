@@ -1,0 +1,21 @@
+.cqr-rule-eval-input {
+  width: 70px;
+  border-color: rgba(118, 118, 118, 0.3);
+}
+.margin-ri-20 {
+  margin-right: 20px;
+}
+.cqr-eval-wrap-multiple-inputs {
+  display: inline-flex;
+}
+.cqr-eval-multiple-input-heading {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.cq-ipr-rl-cont-card {
+  border: none;
+  box-shadow: none;
+  width: 100%;
+}

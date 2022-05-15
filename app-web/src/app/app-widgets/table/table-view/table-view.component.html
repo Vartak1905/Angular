@@ -1,0 +1,16 @@
+<div *ngIf="columns.length > 0" class="cq-wid-tb-cont">
+    <mdt-dynamic-table *ngIf="serverSide" class="sv-app-tbview" [columns]="columns" [paginator]="null" [dataSource]="dataSource"
+    [showFilters]="filter" pageSzie="5"></mdt-dynamic-table>
+    <mdt-dynamic-table *ngIf="!serverSide" class="sv-app-tbview" [columns]="columns" [pageSizeOptions]="[10]" pageSize="10" [dataSource]="dataSource"
+    [showFilters]="filter"></mdt-dynamic-table>
+</div>
+<mat-paginator
+            #paginator
+            *ngIf="serverSide"
+            [length]="totalData"
+            pageSize="10"
+            [pageIndex]="pageIndex"
+            (page)="pageChangeEvent($event)"
+            >
+</mat-paginator>
+

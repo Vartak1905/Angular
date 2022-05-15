@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-lg-8 cq-register-form-cont">
+        <mat-card class="cq-register-form-card elevation-4">
+            <mat-card-header>
+                <mat-card-title>Business Entity Registration</mat-card-title>
+                <mat-card-subtitle>
+                    <app-ng-dynamic-breadcrumb  fontSize="12px" bgColor="#fff" fontColor="#ff6600" lastLinkColor="#0430ad"></app-ng-dynamic-breadcrumb>
+                </mat-card-subtitle>
+              </mat-card-header>
+            <mat-card-content>
+                <app-company-registration-form [additional_detail]="false" [edit_mode]="false" [add_mode]="true" [readonly]="false">
+                </app-company-registration-form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

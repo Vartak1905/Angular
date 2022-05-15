@@ -1,0 +1,30 @@
+<div class="row cq-dash-tb-cont">
+    <mat-card class="cq-dash-tb-cont-card">
+        <mat-card-header>
+            <mat-card-title>Business Entity Dashboard</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row cq-row">
+                <div class="col-lg-4">
+                    <!--<div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
+                            <input type="search" class="form-control" placeholder="Business Entity Name">
+                        </div>
+                    </div>-->
+                </div>
+                <div *ngIf="!hideReg" class="col-lg-8">
+                    <button mat-raised-button class="cq-btn cq-form-btn pull-right"
+                        aria-label="Register Company" [routerLink]="'/add-client'">
+                        <mat-icon>add</mat-icon> Register New Business Entity
+                    </button>
+                </div>
+            </div>
+            <app-table-view class="sv-ua-tableview-cont" filter="true"></app-table-view>
+        </mat-card-content>
+    </mat-card>
+</div>

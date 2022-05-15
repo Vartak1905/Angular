@@ -1,0 +1,25 @@
+.margin-rg-20 {
+  margin-right: 20px;
+}
+
+.pull-right {
+  float: right;
+}
+
+.cq-add-cl-address-dd-lbl {
+  margin-right: 10px;
+  width: 20%;
+}
+
+.cq-add-cl-btn-cont {
+  float: right;
+}
+.padding-0 {
+ padding: 0;
+}
+.margin-rg-10 {
+  margin-right: 20px;
+}
+input[type="file"]{
+  color: transparent;
+}

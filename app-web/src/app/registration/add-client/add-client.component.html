@@ -1,0 +1,16 @@
+<div class="row cq-row">
+    <div class="col-lg-10 cq-register-form-cont">
+        <mat-card class="cq-register-form-card">
+            <mat-card-header>
+                <mat-card-title>{{heading}}</mat-card-title>
+                <mat-card-subtitle>
+                    <app-ng-dynamic-breadcrumb  fontSize="12px" bgColor="#fff" fontColor="#ff6600" lastLinkColor="#0430ad"></app-ng-dynamic-breadcrumb>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <app-company-registration-form [additional_detail]="true" [edit_mode]="edit_mode" [add_mode]="add_mode" [readonly]="false">
+                </app-company-registration-form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

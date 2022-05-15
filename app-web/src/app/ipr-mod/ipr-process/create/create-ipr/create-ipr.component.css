@@ -1,0 +1,25 @@
+.cq-create-ipr-form-cont {
+    border: none;
+    box-shadow: none;
+    width: 100%;
+}
+  
+.cq-create-ipr-form-cont .jumbotron {
+    padding: 2rem 5rem;
+    width: 100%;
+}
+
+.cq-create-ipr-form {
+    width: 100%;
+    margin: 0 6.5rem 0 6.5rem;
+}
+
+
+.cq-form-row {
+    margin: 0.5rem;
+}
+  
+.cq-create-ipr-form-fld {
+    width: 100%;
+}
+  

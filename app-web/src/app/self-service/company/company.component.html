@@ -1,0 +1,851 @@
+<div class="row cq-cpro-cont">
+    <mat-card class="cq-cpro-cont-card">
+        <mat-card-header>
+            <mat-card-title>General Profile Details</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row cq-row cq-secondary-color white-text main-profile pos-relative">
+                <div class="col-lg-2 col-md-2 no-padding">
+                    <div class="profile-img-container">
+                        <img [src]="fileDetails?.profile?.src || '../../../assets/user.jpg'" class="profile-image"
+                            alt="User Image">
+                        <input hidden type="file" (change)="onSelImage($event.target.files, 'profile')" #file
+                            placeholder="Profile Image" autocomplete="off">
+                        <!-- <mat-icon *ngIf="isProfileEdit" class="icon-camera">camera_alt</mat-icon> -->
+                        <mat-icon *ngIf="isProfileEdit" (click)="file.click()" class="icon-camera">camera_alt</mat-icon>
+                        <!-- <mat-error *ngIf="userFromGrp.get('profileImage').errors?.extension">
+                            Only JPEG's and PNG's are allowed.
+                        </mat-error> -->
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-9 ml-15">
+                    <mat-list role="list" class="white-text">
+                        <mat-list-item role="listitem">
+                            <mat-label>
+                                <h4 class="font-size-16">{{ profileDetails?.companyName }}</h4>
+                            </mat-label>
+                        </mat-list-item>
+                        <mat-list-item role="listitem">
+                            <mat-label>
+                                <p class="font-size-14">{{ profileDetails?.clientDetails?.officeAddress.line1 }}</p>
+                            </mat-label>
+                        </mat-list-item>
+                        <mat-list-item role="listitem">
+                            <mat-label>
+                                <p class="font-size-14">{{ profileDetails?.clientDetails?.officeAddress.line2 }},
+                                    {{ profileDetails?.clientDetails?.officeAddress.area }}</p>
+                            </mat-label>
+                        </mat-list-item>
+                        <mat-list-item role="listitem">
+                            <mat-label>
+                                <p class="font-size-14">{{ profileDetails?.cityName }} -
+                                    {{ profileDetails?.pincodeName }}</p>
+                            </mat-label>
+                        </mat-list-item>
+                        <mat-list-item role="listitem">
+                            <mat-label>
+                                <p class="font-size-14">{{ profileDetails?.stateName }}</p>
+                            </mat-label>
+                        </mat-list-item>
+                        <mat-list-item role="listitem">
+                            <mat-label>
+
+                                <p *ngIf="businessEntities" class="font-size-14 no-margin label-min-width">Business
+                                    Entity Type:
+                                    <mat-checkbox type="checkbox"
+                                        *ngFor="let hobby of companyDetails.controls?.businessEntityType?.controls; let i=index;"
+                                        disabled="true"
+                                        (change)="onBusinessEntityValueChange($event,businessEntityTypeCheckBox[i])"
+                                        [checked]="businessEntities.indexOf(businessEntityTypeCheckBox[i]?.id)>-1">
+                                        {{businessEntityTypeCheckBox[i]?.itemName}}
+                                    </mat-checkbox>
+
+                                </p>
+
+                            </mat-label>
+                        </mat-list-item>
+                        <mat-list-item role="listitem" *ngIf="entitiesChecked['Insurance Company']">
+                            <mat-label>
+                                <p class="font-size-14 no-margin label-min-width">Category:
+                                    <mat-radio-group color="primary" [disabled]="true" [(ngModel)]="insuranceCategory"
+                                        name="categoryView" fxLayout="column">
+                                        <mat-radio-button *ngFor="let category of categoryRadioButtons"
+                                            class="margin-rg-20 company-radio"
+                                            checked="{{companyDetails.get('insuranceCategory').value==category.id}}"
+                                            [value]="category.id">
+                                            {{category.itemName}}</mat-radio-button>
+                                    </mat-radio-group>
+                                </p>
+                            </mat-label>
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+                <div>
+                    <i *ngIf="!isProfileEdit"
+                        class="cursor-pointer font-size-18 fas fa-edit white-text profile-pic-edit"
+                        (click)="onProfileEdit()"></i>
+                    <i *ngIf="isProfileEdit"
+                        class="cursor-pointer font-size-18 fas fa-window-close white-text profile-pic-edit"
+                        (click)="onProfileCancel()"></i>
+                </div>
+            </div>
+            <mat-tab-group (selectedTabChange)="onTabChanged($event);">
+                <mat-tab label="Details">
+                    <ng-template matTabContent>
+                        <div class="profile-details" *ngIf="!isFormEdit">
+                            <mat-accordion>
+                                <mat-expansion-panel [expanded]="true">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            General Details
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <div class="row cq-row">
+                                        <div class="col-lg-3 col-md-3 label-style">
+                                            <div>
+                                                <mat-label class="grey-color">Company Name</mat-label>
+                                            </div>
+                                            <div>
+                                                <mat-label><b>{{profileDetails?.companyName}}</b></mat-label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 label-style">
+                                            <div class="grey-color">
+                                                <mat-label>Cliet ID</mat-label>
+                                            </div>
+                                            <div>
+                                                <mat-label><b>{{profileDetails?.id}}</b></mat-label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 label-style">
+                                            <div>
+                                                <mat-label class="grey-color">Legal Entity</mat-label>
+                                            </div>
+                                            <div>
+                                                <mat-label><b>{{profileDetails?.legalEntName}}</b></mat-label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 label-style">
+                                            <div>
+                                                <mat-label class="grey-color">Business Entity Type</mat-label>
+                                            </div>
+                                            <div *ngIf="businessEntities">
+                                                <mat-label
+                                                    *ngFor="let hobby of companyDetails.controls?.businessEntityType?.controls; let i=index;">
+                                                    <ng-conatiner
+                                                        *ngIf="businessEntities.indexOf(businessEntityTypeCheckBox[i]?.id)>-1">
+                                                        {{businessEntityTypeCheckBox[i]?.itemName}}
+                                                    </ng-conatiner>
+                                                </mat-label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row cq-row">
+                                        <div class="col-lg-3 col-md-3 label-style">
+                                            <div>
+                                                <mat-label class="grey-color">Category</mat-label>
+                                            </div>
+                                            <div>
+                                                <mat-label>
+                                                    <b>{{profileDetails?.categoryName}}</b>
+                                                </mat-label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 label-style">
+                                            <div>
+                                                <mat-label class="grey-color">Industry
+                                                </mat-label>
+                                            </div>
+                                            <div>
+                                                <mat-label><b>{{profileDetails?.industryName}}</b></mat-label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 label-style">
+                                            <div>
+                                                <mat-label class="grey-color">No of Employees
+                                                </mat-label>
+                                            </div>
+                                            <div>
+                                                <mat-label class="col-form-label font-weight-normal">
+                                                    <b>{{profileDetails?.noOfEmpName}}</b>
+                                                </mat-label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 label-style">
+                                            <div>
+                                                <mat-label class="grey-color">CIN</mat-label>
+                                            </div>
+                                            <div>
+                                                <div class="col-lg-3 col-md-3 no-padding">
+                                                    <mat-label class="col-form-label font-weight-normal">
+                                                        <b>{{profileDetails?.clientDetails?.cinNumber}}</b>
+                                                    </mat-label>
+                                                </div>
+                                                <div class="col-lg-1 col-md-1">
+                                                    <i class="fa fa-eye cursor-pointer" *ngIf="fileDetails?.pan?.show"
+                                                        mat-button (click)="openImageModal('cin')" color="primary"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row cq-row">
+                                        <div class="col-lg-3 col-md-3 label-style">
+                                            <div>
+                                                <mat-label class="grey-color">PAN Card Number with PAN Card</mat-label>
+                                            </div>
+                                            <div>
+                                                <div class="col-lg-3 col-md-3 no-padding">
+                                                    <mat-label>
+                                                        <b>{{profileDetails?.clientDetails?.panNumber}}</b>
+                                                    </mat-label>
+                                                </div>
+                                                <div class="col-lg-1 col-md-1">
+                                                    <i class="fa fa-eye cursor-pointer" *ngIf="fileDetails?.pan?.show"
+                                                        mat-button (click)="openImageModal('pan')" color="primary"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 label-style">
+                                            <div>
+                                                <mat-label class="grey-color">GST Number with GST Certificate
+                                                </mat-label>
+                                            </div>
+                                            <div>
+                                                <div class="col-lg-4 col-md-4 no-padding">
+                                                    <mat-label>
+                                                        <b>{{profileDetails?.clientDetails?.gstNumber}}</b>
+                                                    </mat-label>
+                                                </div>
+                                                <div class="col-lg-1 col-md-1">
+                                                    <i class="fa fa-eye cursor-pointer" *ngIf="fileDetails?.gst?.show"
+                                                        mat-button (click)="openImageModal('gst')" color="primary"></i>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </mat-expansion-panel>
+                                <mat-expansion-panel (opened)="false" *ngIf="entitiesChecked['Insurance Company']">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            Insurance Details
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <div class="row cq-row">
+                                        <div class="col-lg-3 col-md-3 label-style">
+                                            <div>
+                                                <mat-label class="grey-color">Year of Incorporation</mat-label>
+                                            </div>
+                                            <div>
+                                                <mat-label class="col-form-label font-weight-normal">
+                                                    <b>{{profileDetails?.clientDetails?.yearOfInc || "-"}}</b>
+                                                </mat-label>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 label-style">
+                                            <div>
+                                                <mat-label class="grey-color">IRDA License Number</mat-label>
+                                            </div>
+                                            <div>
+                                                <mat-label><b>{{profileDetails?.clientDetails?.irdaLicenseNum ||
+                                                        '-'}}</b></mat-label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 label-style">
+                                            <div class="grey-color">
+                                                <mat-label>No. of years in business</mat-label>
+                                            </div>
+                                            <div>
+                                                <mat-label><b>{{profileDetails?.clientDetails?.numOfYrsInBiz}}</b>
+                                                </mat-label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 label-style">
+                                            <div>
+                                                <mat-label class="grey-color">No. of Years in Group Business</mat-label>
+                                            </div>
+                                            <div>
+                                                <mat-label><b>{{profileDetails?.clientDetails?.numOfYrsInGrpBiz ||
+                                                        '-'}}</b></mat-label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row cq-row">
+                                        <div class="col-lg-3 col-md-3 label-style">
+                                            <div>
+                                                <mat-label class="grey-color">Capital (Rs Crore)</mat-label>
+                                            </div>
+                                            <div>
+                                                <mat-label><b>{{profileDetails?.clientDetails?.capital || '-'}}</b>
+                                                </mat-label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 label-style">
+                                            <div>
+                                                <mat-label class="grey-color">Solvency Ratio (%)</mat-label>
+                                            </div>
+                                            <div>
+                                                <mat-label><b>{{profileDetails?.clientDetails?.solvencyRatio ||
+                                                        '-'}}</b></mat-label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 label-style">
+                                            <div class="grey-color">
+                                                <mat-label>Settlement Ratio (%)</mat-label>
+                                            </div>
+                                            <div>
+                                                <mat-label><b>{{profileDetails?.clientDetails?.stlmtRatio || '-'}}</b>
+                                                </mat-label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 label-style">
+                                            <div>
+                                                <mat-label class="grey-color">Asset Under Management (Rs Crores)
+                                                </mat-label>
+                                            </div>
+                                            <div>
+                                                <mat-label><b>{{profileDetails?.clientDetails?.assetUnderMgmt ||
+                                                        '-'}}</b></mat-label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row cq-row">
+                                        <div class="col-lg-3 col-md-3 label-style">
+                                            <div>
+                                                <mat-label class="grey-color">Sector</mat-label>
+                                            </div>
+                                            <div>
+                                                <mat-label><b>{{profileDetails?.clientDetails?.sector || '-'}}</b>
+                                                </mat-label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-expansion-panel>
+                            </mat-accordion>
+                        </div>
+                        <div class="profile-form" *ngIf="isFormEdit">
+                            <div class="container">
+                                <form [formGroup]="companyDetails">
+                                    <div class="row cq-row">
+                                        <div class="col-lg-4 col-md-6 col-sm-6">
+                                            <label class="col-form-label font-weight-normal">Company Id :</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8">
+                                            <mat-label>{{companyDetails?.get("id").value}}</mat-label>
+                                            <!--<input matInput formControlName="id" [readonly]="true" autocomplete="off">-->
+                                        </div>
+                                    </div>
+                                    <div class="row cq-row">
+                                        <div class=" col-lg-4 col-md-6 col-sm-6">
+                                            <label class="col-form-label font-weight-normal">Company Name* :</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8">
+                                            <mat-form-field class="mat-form-field-fw form-input">
+                                                <input matInput formControlName="companyName" placeholder="Company Name"
+                                                    autocomplete="off">
+                                                <mat-error *ngIf="companyDetails.get('companyName').errors?.required">
+                                                    Please enter company name.
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="row cq-row">
+                                        <div class="col-lg-4 col-md-6 col-sm-6">
+                                            <label class="col-form-label font-weight-normal">Legal Entity<span
+                                                    *ngIf="legalEntityMandatory">*</span>
+                                                :</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8">
+                                            <mat-form-field class="form-input">
+                                                <mat-select formControlName="legalEntity"
+                                                    [required]="legalEntityMandatory">
+                                                    <mat-option [value]="">-- None --</mat-option>
+                                                    <mat-option *ngFor="let legalEntity of legalEntityDrodown"
+                                                        [value]="legalEntity.id">
+                                                        {{ legalEntity.itemName }}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error *ngIf="companyDetails.get('legalEntity').errors?.required">
+                                                    Please select legal entity.
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="row cq-row">
+                                        <div class="col-lg-4 col-md-6 col-sm-6">
+                                            <label class="col-form-label font-weight-normal">Business Entity Type*
+                                                :</label>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <div class="flex-container form-input">
+                                                <div
+                                                    *ngFor="let hobby of companyDetails.controls?.businessEntityType?.controls; let i=index;">
+                                                    <mat-checkbox type="checkbox"
+                                                        (change)="onBusinessEntityValueChange($event,businessEntityTypeCheckBox[i])"
+                                                        [formControl]="hobby"></mat-checkbox>
+                                                    {{businessEntityTypeCheckBox[i]?.itemName}}
+                                                </div>
+
+                                                <mat-error
+                                                    *ngIf="companyDetails.get('businessEntityType')?.touched && businessEntities.length == 0">
+                                                    Please select atleast one item.
+                                                </mat-error>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="entitiesChecked['Insurance Company']" class="row cq-row">
+                                        <div class="col-lg-4 col-md-6 col-sm-6">
+                                            <label class="col-form-label font-weight-normal">Category* :</label>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 form-input">
+                                            <mat-radio-group name="category" formControlName="insuranceCategory"
+                                                fxLayout="column">
+                                                <mat-radio-button *ngFor="let category of categoryRadioButtons"
+                                                    class="margin-rg-20" [value]="category.id">
+                                                    {{category.itemName}}</mat-radio-button>
+                                            </mat-radio-group>
+                                            <mat-error
+                                                *ngIf="companyDetails.get('insuranceCategory').errors?.required && companyDetails.get('insuranceCategory').touched">
+                                                Please select insurance category.
+                                            </mat-error>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="entitiesChecked['Insurance Buyer']" class="row cq-row">
+                                        <div class="col-lg-4 col-md-6 col-sm-6">
+                                            <label class="col-form-label font-weight-normal">Industry* :</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8">
+                                            <mat-form-field class="form-input">
+                                                <mat-select formControlName="industryType">
+                                                    <mat-option [value]="">-- None --</mat-option>
+                                                    <mat-option *ngFor="let industry of industryDropdown"
+                                                        [value]="industry.id">
+                                                        {{ industry.itemName }}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error *ngIf="companyDetails.get('industryType').errors?.required">
+                                                    Please select valid industry.
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="entitiesChecked['Insurance Buyer']" class="row cq-row">
+
+                                        <div class="col-lg-4 col-md-6 col-sm-6">
+                                            <label class="col-form-label font-weight-normal">No.of Employees<span
+                                                    *ngIf="noOfEmpMandatory">*</span>
+                                                :</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8">
+                                            <form [formGroup]="companyDetails.get('clientDetails')">
+                                                <mat-form-field class="form-input">
+                                                    <mat-select formControlName="employeeCount"
+                                                        [required]="noOfEmpMandatory">
+                                                        <mat-option [value]="">-- None --</mat-option>
+                                                        <mat-option *ngFor="let noOfEmployees of noOfEmployeesDropdown"
+                                                            [value]="noOfEmployees.id">
+                                                            {{ noOfEmployees.itemValue }}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                    <mat-error
+                                                        *ngIf="companyDetails.get('clientDetails').get('employeeCount').errors?.required">
+                                                        Please select no. of employees.
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </form>
+                                <form [formGroup]="companyDetails.get('clientDetails')" appearance="outline">
+                                    <div class="row cq-row">
+                                        <div class="col-lg-4 col-md-6 col-sm-6">
+                                            <label class="col-form-label font-weight-normal">PAN Number* :</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-6">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-4">
+                                                    <mat-form-field class="mat-form-field-fw form-input">
+                                                        <input matInput formControlName="panNumber"
+                                                            placeholder="PAN Number" [readonly]="true"
+                                                            autocomplete="off">
+                                                        <mat-error
+                                                            *ngIf="companyDetails.get('clientDetails').get('panNumber').errors?.required">
+                                                            Please enter PAN number.
+                                                        </mat-error>
+                                                        <mat-error
+                                                            *ngIf="companyDetails.get('clientDetails').get('panNumber').errors?.pattern">
+                                                            Please enter valid PAN number.
+                                                        </mat-error>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div *ngIf="fileDetails.pan.show" class="col-lg-2 col-md-4">
+                                                    <mat-checkbox formControlName="panValid"> Is Valid</mat-checkbox>
+                                                </div>
+                                                <div *ngIf="fileDetails.pan.show" class="col-lg-4 col-md-4">
+                                                    <button *ngIf="showPanAddValidateButton" mat-button
+                                                        color="primary">Validate PAN
+                                                        Card</button>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6">
+                                                    <input type="file" (change)="onSelImage($event.target.files, 'pan')"
+                                                        formControlName="panImage" placeholder="PAN Number"
+                                                        [attr.disabled]="true" autocomplete="off">
+                                                    <mat-error
+                                                        *ngIf="companyDetails.get('clientDetails').get('panImage').errors?.extension">
+                                                        Only JPEG's and PNG's are allowed.
+                                                    </mat-error>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6">
+                                                    <button *ngIf="fileDetails.pan.show" mat-button
+                                                        (click)="openImageModal('pan')" color="primary">View PAN
+                                                        Card</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row cq-row">
+                                        <div class="col-lg-4 col-md-6 col-sm-6">
+                                            <label class="col-form-label font-weight-normal">GST Number* :</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-6">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6">
+                                                    <mat-form-field class="mat-form-field-fw form-input">
+                                                        <input matInput formControlName="gstNumber"
+                                                            placeholder="GST Number" [readonly]="false"
+                                                            autocomplete="off">
+                                                        <mat-error
+                                                            *ngIf="companyDetails.get('clientDetails').get('gstNumber').errors?.required">
+                                                            Please enter GST number.
+                                                        </mat-error>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6">
+                                                    <input type="file" (change)="onSelImage($event.target.files, 'gst')"
+                                                        formControlName="gstImage" autocomplete="off">
+                                                    <mat-error
+                                                        *ngIf="companyDetails.get('clientDetails').get('gstImage').errors?.extension">
+                                                        Only JPEG's and PNG's are allowed.
+                                                    </mat-error>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6">
+                                                    <button *ngIf="fileDetails.gst.show" mat-button
+                                                        (click)="openImageModal('gst')" color="primary">View GST
+                                                        Certificate</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row cq-row">
+                                        <div class="col-lg-4 col-md-6 col-sm-6">
+                                            <label class="col-form-label font-weight-normal">ROC Details* :</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-6">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-4">
+                                                    <mat-form-field class="mat-form-field-fw form-input">
+                                                        <input matInput formControlName="cinNumber"
+                                                            placeholder="CIN Number" [readonly]="true"
+                                                            autocomplete="off">
+                                                        <mat-error
+                                                            *ngIf="companyDetails.get('clientDetails').get('cinNumber').errors?.required">
+                                                            Please enter ROC details.
+                                                        </mat-error>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div *ngIf="fileDetails.cin.show" class="col-lg-2 col-md-4">
+                                                    <mat-checkbox formControlName="cinValid"> Is Valid</mat-checkbox>
+                                                </div>
+                                                <div *ngIf="fileDetails.cin.show" class="col-lg-4 col-md-4">
+                                                    <button mat-button color="primary">Validate CIN
+                                                        Details</button>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6">
+                                                    <input type="file" (change)="onSelImage($event.target.files, 'cin')"
+                                                        formControlName="cinImage" placeholder="CIN Details"
+                                                        [attr.disabled]="true" autocomplete="off">
+                                                    <mat-error
+                                                        *ngIf="companyDetails.get('clientDetails').get('cinImage').errors?.extension">
+                                                        Only JPEG's and PNG's are allowed.
+                                                    </mat-error>
+                                                </div>
+                                                <div *ngIf="fileDetails.cin.show" class="col-lg-6 col-md-6">
+                                                    <button mat-button (click)="openImageModal('cin')"
+                                                        color="primary">View
+                                                        Incorporation
+                                                        Certificate</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="entitiesChecked['Insurance Company']">
+                                        <div class="row cq-row">
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <label class="col-form-label font-weight-normal">Year of
+                                                            Incorporation*
+                                                            :</label>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <mat-form-field class="mat-form-field-fw form-input"
+                                                            appearance="fill">
+                                                            <input type="number" matInput formControlName="yearOfInc"
+                                                                autocomplete="off">
+                                                            <mat-error
+                                                                *ngIf="companyDetails.get('clientDetails').get('yearOfInc').errors?.required">
+                                                                Please enter year of incorporation.
+                                                            </mat-error>
+                                                            <mat-error
+                                                                *ngIf="companyDetails.get('clientDetails').get('yearOfInc').errors?.pattern">
+                                                                Please enter valid year of incorporation.
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <label class="col-form-label font-weight-normal">IRDA License
+                                                            Number*
+                                                            :</label>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <mat-form-field class="mat-form-field-fw form-input"
+                                                            appearance="fill">
+                                                            <input matInput formControlName="irdaLicenseNum"
+                                                                autocomplete="off">
+                                                            <mat-error
+                                                                *ngIf="companyDetails.get('clientDetails').get('irdaLicenseNum').errors?.required">
+                                                                Please enter IRDA license number.
+                                                            </mat-error>
+                                                            <mat-error
+                                                                *ngIf="companyDetails.get('clientDetails').get('irdaLicenseNum').errors?.pattern">
+                                                                Please enter valid IRDA license number.
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row cq-row">
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <label class="col-form-label font-weight-normal">No. of Years in
+                                                            Business* :</label>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <mat-form-field class="mat-form-field-fw form-input"
+                                                            appearance="fill">
+                                                            <input type="number" matInput
+                                                                formControlName="numOfYrsInBiz" autocomplete="off">
+                                                            <span matSuffix>Yrs</span>
+                                                            <mat-error
+                                                                *ngIf="companyDetails.get('clientDetails').get('numOfYrsInBiz').errors?.required">
+                                                                Please enter no. of years in business.
+                                                            </mat-error>
+                                                            <mat-error
+                                                                *ngIf="companyDetails.get('clientDetails').get('numOfYrsInBiz').errors?.pattern">
+                                                                Please enter valid no. of years in business.
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <label class="col-form-label font-weight-normal">No. of Years in
+                                                            Group
+                                                            Business*
+                                                            :</label>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <mat-form-field class="mat-form-field-fw form-input"
+                                                            appearance="fill">
+                                                            <input type="number" matInput
+                                                                formControlName="numOfYrsInGrpBiz" autocomplete="off">
+                                                            <span matSuffix>Yrs</span>
+                                                            <mat-error
+                                                                *ngIf="companyDetails.get('clientDetails').get('numOfYrsInGrpBiz').errors?.required">
+                                                                Please enter no. of years in group business.
+                                                            </mat-error>
+                                                            <mat-error
+                                                                *ngIf="companyDetails.get('clientDetails').get('numOfYrsInGrpBiz').errors?.pattern">
+                                                                Please enter valid no. of years in group business.
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row cq-row">
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <label class="col-form-label font-weight-normal">Capital*
+                                                            :</label>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <mat-form-field class="mat-form-field-fw form-input"
+                                                            appearance="fill">
+                                                            <input type="number" matInput formControlName="capital"
+                                                                autocomplete="off">
+                                                            <span matPrefix>Rs&nbsp;</span>
+                                                            <span matSuffix>Cr</span>
+                                                            <mat-error
+                                                                *ngIf="companyDetails.get('clientDetails').get('capital').errors?.required">
+                                                                Please enter capital.
+                                                            </mat-error>
+                                                            <mat-error
+                                                                *ngIf="companyDetails.get('clientDetails').get('capital').errors?.pattern">
+                                                                Please enter valid capital
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <label class="col-form-label font-weight-normal">Solvency Ratio*
+                                                            :</label>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <mat-form-field class="mat-form-field-fw form-input"
+                                                            appearance="fill">
+                                                            <input type="number" matInput
+                                                                formControlName="solvencyRatio" autocomplete="off">
+                                                            <span matSuffix>%</span>
+                                                            <mat-error
+                                                                *ngIf="companyDetails.get('clientDetails').get('solvencyRatio').errors?.required">
+                                                                Please enter solvency ratio.
+                                                            </mat-error>
+                                                            <mat-error
+                                                                *ngIf="companyDetails.get('clientDetails').get('solvencyRatio').errors?.pattern">
+                                                                Please enter valid solvency ratio.
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row cq-row">
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <label class="col-form-label font-weight-normal">Settlement
+                                                            Ratio*
+                                                            :</label>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <mat-form-field class="mat-form-field-fw form-input"
+                                                            appearance="fill">
+                                                            <input type="number" matInput formControlName="stlmtRatio"
+                                                                autocomplete="off">
+                                                            <span matSuffix>%</span>
+                                                            <mat-error
+                                                                *ngIf="companyDetails.get('clientDetails').get('stlmtRatio').errors?.required">
+                                                                Please enter settlement ratio.
+                                                            </mat-error>
+                                                            <mat-error
+                                                                *ngIf="companyDetails.get('clientDetails').get('stlmtRatio').errors?.pattern">
+                                                                Please enter valid settlement ratio.
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <label class="col-form-label font-weight-normal">Asset Under
+                                                            Management*:</label>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <mat-form-field class="mat-form-field-fw form-input"
+                                                            appearance="fill">
+                                                            <input type="number" matInput
+                                                                formControlName="assetUnderMgmt" autocomplete="off">
+                                                            <span matPrefix>Rs&nbsp;</span>
+                                                            <span matSuffix>Cr</span>
+                                                            <mat-error
+                                                                *ngIf="companyDetails.get('clientDetails').get('assetUnderMgmt').errors?.required">
+                                                                Please enter asset under management.
+                                                            </mat-error>
+                                                            <mat-error
+                                                                *ngIf="companyDetails.get('clientDetails').get('assetUnderMgmt').errors?.pattern">
+                                                                Please enter valid asset under management.
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row cq-row">
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <label class="col-form-label font-weight-normal">Sector*
+                                                            :</label>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 form-input">
+                                                        <mat-radio-group name="sector" formControlName="sector"
+                                                            fxLayout="column">
+                                                            <mat-radio-button class="margin-rg-20" value="private">
+                                                                Private
+                                                            </mat-radio-button>
+                                                            <mat-radio-button class="margin-rg-20" value="PSU">PSU
+                                                            </mat-radio-button>
+                                                        </mat-radio-group>
+                                                        <mat-error
+                                                            *ngIf="companyDetails.get('clientDetails').get('sector').errors?.required && companyDetails.get('clientDetails').get('sector').touched">
+                                                            Please select sector.
+                                                        </mat-error>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="row pull-right">
+                                    <div class="cq-add-cl-btn-cont">
+                                        <button (click)="onProfileCancel()" mat-raised-button
+                                            class="cq-btn cq-form-btn">Cancel</button>
+                                        <button (click)="updateDetails()" mat-raised-button
+                                            class="cq-btn cq-form-btn">Save</button>
+                                        <button (click)="updateDetails()" mat-raised-button
+                                            class="cq-btn cq-form-btn">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </mat-tab>
+                <mat-tab label="Group Owner">
+                    <ng-template matTabContent>
+                        <app-user-listing role_name="GroupOwner"></app-user-listing>
+                    </ng-template>
+                </mat-tab>
+                <mat-tab label="Admin">
+                    <ng-template matTabContent>
+                        <app-user-listing role_name="Admin"></app-user-listing>
+                    </ng-template>
+                </mat-tab>
+            </mat-tab-group>
+        </mat-card-content>
+    </mat-card>
+</div>

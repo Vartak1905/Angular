@@ -1,0 +1,26 @@
+.brand-link {
+  display: inline-block;
+  width: 100%;
+}
+
+.brand-image {
+  width: 70%;
+}
+
+.sidebar a {
+  color: #333;
+}
+
+.main-sidebar {
+  padding-top: 0.5rem;
+  top: 56px;
+}
+
+.nav-item :hover {
+  background-color: #F5EDE3;
+  color: #333;
+}
+
+.nav .nav-item .nav-link .nav-icon {
+  width: 1.6rem;
+}

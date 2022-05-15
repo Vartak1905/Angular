@@ -1,0 +1,255 @@
+<div class="row cq-ipr-list-cont">
+    <mat-card class="cq-ipr-list-cont-card">
+        <mat-card-header>
+            <mat-card-title>Ongoing IPRs</mat-card-title>
+            <mat-card-subtitle>
+                <app-ng-dynamic-breadcrumb fontSize="12px" bgColor="#fff" fontColor="#ff6600" lastLinkColor="#0430ad">
+                </app-ng-dynamic-breadcrumb>
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="cq-ipr-list-card-cont">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-12">
+                    <span>Filter</span>
+                    <button mat-icon-button [matMenuTriggerFor]="filter">
+                        <mat-icon class="cq-ipr-list-filter-icon">filter_list</mat-icon>
+                    </button>
+                    <mat-menu #filter="matMenu">
+                        <button mat-menu-item (click)="initiateFilter('startDate', 'Issue Date', 'date')">
+                            <span>By Issue Date</span>
+                        </button>
+                        <button mat-menu-item (click)="initiateFilter('iprTitle', 'IPR Title', 'string')">
+                            <span>By IPR Title</span>
+                        </button>
+                        <button mat-menu-item (click)="initiateFilter('iprCreationType', 'IPR Type', 'dropdown')">
+                            <span>By IPR Creation Type</span>
+                        </button>
+                    </mat-menu>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="row" *ngIf="filterCondArr.length > 0" class="cq-ipr-list-filter-cont">
+                        <mat-chip-list>
+                            <mat-chip *ngFor="let fc of filterCondArr; index as idx;" [removable]="true"
+                                (removed)="removeFilter(idx)">
+                                <span *ngIf="fc['fieldValueType'] == 'string'">{{ fc['fieldLabel'] }} contains
+                                    '{{ fc['fieldValue'] }}'' </span>
+                                <span *ngIf="fc['fieldValueType'] == 'date'">{{ fc['fieldLabel'] }} is
+                                    '{{ fc['fieldValue'] }}'' </span>
+                                <span *ngIf="fc['fieldValueType'] == 'dropdown'">{{ fc['fieldLabel'] }} is
+                                    '{{ fc['fieldValueLbl'] }}'' </span>
+                                <mat-icon matChipRemove matTooltip="Remove">cancel</mat-icon>
+                            </mat-chip>
+                        </mat-chip-list>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 pull-right">
+                    <button mat-raised-button class="cq-btn pull-right cq-ipr-list-el-tr-info"
+                        *ngFor="let lov of lovDataObj?.iprCreationType" (click)="createIPR(lov?.itemValue, lov?.id)">
+                        <mat-icon class="cq-ipr-list-el-chip-icon cqr-chip-icon">
+                            {{ iprCreationTypeIcon[lov?.itemValue] }}
+                        </mat-icon> {{ lov?.itemName }}
+                    </button>
+                </div>
+            </div>
+            <div class="row" *ngIf="iprList && iprList.length > 0">
+                <mat-card class="cq-ipr-list-card elevation-1" *ngFor="let ipr of iprList; index as idx;">
+                    <mat-card-content>
+                        <div class="row cq-row cq-ipr-list-card-head-div">
+                            <div class="col-lg-6">
+                                <h6 class="cq-ipr-list-card-head">({{ ipr['uniqueRef'] }})
+                                    {{ ipr['iprTitle'] }}</h6>
+                            </div>
+                            <div class="col-lg-6">
+                                <button mat-icon-button [matMenuTriggerFor]="actions"
+                                    class="cq-ipr-list-el-tr-info cq-ipr-list-el-tr-info-options pull-right">
+                                    <mat-icon>more_vert</mat-icon>
+                                </button>
+                                <mat-menu #actions="matMenu">
+                                    <button mat-menu-item>
+                                        <mat-icon>create</mat-icon>
+                                        <span>Edit IPR Details</span>
+                                    </button>
+                                    <button mat-menu-item>
+                                        <mat-icon>settings_input_antenna</mat-icon>
+                                        <span>Issue IPR</span>
+                                    </button>
+                                    <button mat-menu-item>
+                                        <mat-icon>group_add</mat-icon>
+                                        <span>Invite Participants</span>
+                                    </button>
+                                    <button mat-menu-item>
+                                        <mat-icon>visibility</mat-icon>
+                                        <span>View Participants and Status</span>
+                                    </button>
+                                    <button mat-menu-item>
+                                        <mat-icon>description</mat-icon>
+                                        <span>Issue IPR Doc Addendum</span>
+                                    </button>
+                                    <button mat-menu-item>
+                                        <mat-icon>date_range</mat-icon>
+                                        <span>Modify IPR Calendar</span>
+                                    </button>
+                                    <button mat-menu-item>
+                                        <mat-icon>mark_chat_read</mat-icon>
+                                        <span>View / Respond to IPR Queries</span>
+                                    </button>
+                                    <button mat-menu-item>
+                                        <mat-icon>delete</mat-icon>
+                                        <span>Withdraw / Cancel IPR</span>
+                                    </button>
+                                </mat-menu>
+                                <button mat-raised-button
+                                    class="cq-ipr-list-el-tr-info cq-ipr-list-el-tr-info-status pull-right"
+                                    aria-label="Quick IPR">
+                                    <mat-icon class="cq-ipr-list-el-chip-icon cqr-chip-icon">flag</mat-icon>
+                                    {{ ipr['iprStatus'] }}
+                                </button>
+                                <button mat-raised-button *ngIf="ipr['iprCreationType']['itemValue'] == 'quickIPR'"
+                                    class="cq-ipr-list-el-tr-info cq-ipr-list-el-tr-info-type pull-right"
+                                    aria-label="Quick IPR">
+                                    <mat-icon class="cq-ipr-list-el-chip-icon cqr-chip-icon">flash_on</mat-icon>
+                                    {{ ipr['iprCreationType']?.itemName }}
+                                </button>
+                                <label class="cq-ipr-list-el-tr-info cq-ipr-list-el-tr-info-date pull-right"
+                                    *ngIf="ipr['iprStatus'] == 'In Process' && getDate(ipr['startDate']) && getDate(ipr['endDate'])">
+                                    {{ getDate(ipr['startDate']).getDate() }} {{ getDate(ipr['startDate']) | date:'MMM'
+                                    }} - {{ getDate(ipr['endDate']).getDate() }}
+                                    {{ getDate(ipr['endDate']) | date:'MMM' }}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row cq-row cq-ipr-list-card-badge-div">
+                            <mat-chip-list>
+                                <mat-chip class="bg-color-white cqr-chip red" *ngIf="ipr['iprType']">
+                                    <mat-icon class="cq-ipr-list-el-chip-icon cqr-chip-icon">compare_arrows</mat-icon>
+                                    <span>{{ ipr['iprType']['itemName'] }}</span>
+                                </mat-chip>
+                                <mat-chip class="bg-color-white cqr-chip" *ngIf="ipr['insCategory']">
+                                    <mat-icon class="cq-ipr-list-el-chip-icon cqr-chip-icon">accessible</mat-icon>
+                                    <span>{{ ipr['insCategory']['itemName'] }}</span>
+                                </mat-chip>
+                                <mat-chip class="bg-color-white cqr-chip green" *ngIf="ipr['insPlanType']">
+                                    <mat-icon class="cq-ipr-list-el-chip-icon cqr-chip-icon">group</mat-icon>
+                                    <span>{{ ipr['insPlanType']['itemName'] }}</span>
+                                </mat-chip>
+                                <mat-chip class="bg-color-white cqr-chip purple" *ngIf="ipr['bidType']">
+                                    <mat-icon class="cq-ipr-list-el-chip-icon cqr-chip-icon">group</mat-icon>
+                                    <span>{{ ipr['bidType']['itemName'] }} Bid</span>
+                                </mat-chip>
+                                <mat-chip class="bg-color-white cqr-chip blue" *ngIf="ipr['insPolicyType']">
+                                    <mat-icon class="cq-ipr-list-el-chip-icon cqr-chip-icon">account_balance</mat-icon>
+                                    <span>{{ ipr['insPolicyType']['itemName'] }}</span>
+                                </mat-chip>
+                            </mat-chip-list>
+                        </div>
+                        <div class="row cq-row">
+                            <div class="col-lg-12">
+                                <mat-chip-list class="pull-right">
+                                    <mat-chip class="bg-color-white cq-ipr-list-el-badge-chip">
+                                        <mat-icon class="cq-ipr-list-el-badge-icon cqr-chip-icon">question_answer
+                                        </mat-icon>
+                                        <span> {{ ipr['iprAnswers'] }} Answers</span>
+                                    </mat-chip>
+                                    <mat-chip class="bg-color-white cq-ipr-list-el-badge-chip">
+                                        <mat-icon class="cq-ipr-list-el-badge-icon cqr-chip-icon">help</mat-icon>
+                                        <span> {{ ipr['iprQuestions'] }} Questions</span>
+                                    </mat-chip>
+                                    <mat-chip class="bg-color-white cq-ipr-list-el-badge-chip">
+                                        <mat-icon class="cq-ipr-list-el-badge-icon cqr-chip-icon">reply</mat-icon>
+                                        <span>{{ ipr['iprResponses'] }} IPR Responses</span>
+                                    </mat-chip>
+                                    <mat-chip class="bg-color-white cq-ipr-list-el-badge-chip">
+                                        <mat-icon class="cq-ipr-list-el-badge-icon cqr-chip-icon">thumb_up_alt
+                                        </mat-icon>
+                                        <span>{{ ipr['iprAcknowldgedCount'] }} Ackowledgements</span>
+                                    </mat-chip>
+                                    <mat-chip class="bg-color-white cq-ipr-list-el-badge-chip">
+                                        <mat-icon class="cq-ipr-list-el-badge-icon cqr-chip-icon">local_post_office
+                                        </mat-icon>
+                                        <span>{{ ipr['iprInvitationCount'] }} Invitations</span>
+                                    </mat-chip>
+                                </mat-chip-list>
+                            </div>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div class="row cq-row cq-ipr-list-card-ft-div">
+                            <div class="col-lg-12"
+                                *ngIf="ipr['iprCreationType']['itemValue'] == 'createIPR' && ipr['iprStatus'] == 'Yet to issue'">
+                                <div class="cq-ipr-list-card-ft-bt-cont">
+                                    <div *ngFor="let stage of ipr['processStages']; index as pidx;"
+                                        class="cq-ipr-list-card-ft-bt-cont-child">
+                                        <div *ngIf="stage['childrenList'] && stage['childrenList'].length > 0"
+                                            class="cq-ipr-list-card-ft-bt-cont-child">
+                                            <button mat-raised-button class="cq-btn cq-ipr-list-card-ft-btn"
+                                                [matMenuTriggerFor]="menu">
+                                                <mat-icon class="cq-ipr-list-el-chip-icon cqr-chip-icon">
+                                                    {{ stage['icon'] }}
+                                                </mat-icon>{{ stage['name'] }}
+                                            </button>
+                                            <mat-menu #menu="matMenu">
+                                                <mat-list>
+                                                    <mat-list-item>
+                                                        <label>Rules Status</label>
+                                                    </mat-list-item>
+                                                </mat-list>
+                                                <mat-divider></mat-divider>
+                                                <button mat-menu-item *ngFor="let cstage of stage['childrenList']" (click)="redirectToRules(cstage, ipr)">
+                                                    <mat-icon [ngClass]="{'primary-color': cstage['isActive']}">
+                                                        {{ cstage['icon'] }}</mat-icon>
+                                                    <span>{{ cstage['name'] }}</span>
+                                                </button>
+                                            </mat-menu>
+                                        </div>
+                                        <div *ngIf="stage['childrenList'] && stage['childrenList'].length == 0"
+                                            class="cq-ipr-list-card-ft-bt-cont-child">
+                                            <button (click)="redirect(ipr, stage?.route)" mat-raised-button
+                                                class="cq-btn cq-ipr-list-card-ft-btn" [disabled]="stage['isActive'] ? false : true">
+                                                <mat-icon class="cq-ipr-list-el-chip-icon cqr-chip-icon">
+                                                    {{ stage['icon'] }}
+                                                </mat-icon>{{ stage['name'] }}
+                                            </button>
+                                        </div>
+                                        <mat-icon *ngIf="ipr['processStages'].length != (pidx + 1)"
+                                            class="cq-ipr-list-ft-sep-icon">keyboard_arrow_right</mat-icon>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12"
+                                *ngIf="ipr['iprCreationType']['itemValue'] == 'quickIPR' && ipr['iprStatus'] == 'Yet to issue'">
+                                <button mat-raised-button class="cq-btn pull-right" (click)="resumeIPRProcess(idx)">
+                                    <mat-icon class="cq-ipr-list-el-chip-icon cqr-chip-icon">create</mat-icon>Resume
+                                </button>
+                            </div>
+                            <div class="col-lg-12" *ngIf="ipr['iprStatus'] == 'In Process'">
+                                <button mat-raised-button class="cq-btn pull-right cq-ipr-list-el-tr-info">
+                                    <mat-icon class="cq-ipr-list-el-chip-icon cqr-chip-icon">reply</mat-icon>Evaluate
+                                    IPR Responses
+                                </button>
+                                <button mat-raised-button class="cq-btn pull-right cq-ipr-list-el-tr-info">
+                                    <mat-icon class="cq-ipr-list-el-chip-icon cqr-chip-icon">how_to_reg</mat-icon>View
+                                    Participants Status
+                                </button>
+                                <button mat-raised-button class="cq-btn pull-right cq-ipr-list-el-tr-info">
+                                    <mat-icon class="cq-ipr-list-el-chip-icon cqr-chip-icon">chat</mat-icon>View / Edit
+                                    Queries and Responses
+                                </button>
+                                <button mat-raised-button class="cq-btn pull-right cq-ipr-list-el-tr-info">
+                                    <mat-icon class="cq-ipr-list-el-chip-icon cqr-chip-icon">calendar_today</mat-icon>
+                                    View / Edit Calendar
+                                </button>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <div class="row cq-row cq-ipr-list-card-ft">
+                <button mat-raised-button class="cq-btn cq-form-btn" *ngIf="!isLoadingData && !showNoRecMsg"
+                    (click)="loadMoreIPRListing()">
+                    <mat-icon class="cqr-chip-icon">cached</mat-icon>Load More
+                </button>
+                <mat-spinner *ngIf="isLoadingData" diameter=40></mat-spinner>
+                <span *ngIf="showNoRecMsg">No more records are available</span>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

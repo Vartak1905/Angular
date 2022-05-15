@@ -1,0 +1,60 @@
+<aside class="main-sidebar cq-btn-accent-color elevation-4">
+    <div class="sidebar">
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column text-sm" data-widget="treeview" role="menu" data-accordion="false"
+                *ngIf="menuList && menuList.length > 0">
+                <span *ngFor="let menu of menuList">
+                    <li class="nav-item" *ngIf="menu.childrenList.length == 0">
+                        <a [routerLink]='menu.route' class="nav-link">
+                            <i class="{{ menu.icon }}"></i>
+                            <p>{{ menu.name }}</p>
+                        </a>
+                    </li>
+                    <li class="nav-item has-treeview" *ngIf="menu.childrenList.length > 0">
+                        <a class="nav-link">
+                            <i class="{{ menu.icon }}"></i>
+                            <p>{{ menu.name }}
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview" style="display: none;">
+                            <li class="nav-item" *ngFor="let cmenu of menu['childrenList']">
+                                <a [routerLink]='cmenu.route' class="nav-link">
+                                    <i class="{{ cmenu.icon }}"></i>
+                                    <p>{{ cmenu.name }}</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </span>
+            </ul>
+        </nav>
+        <nav class="mt-2" style="display: none;">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Charts
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display: none;">
+                        <li class="nav-item">
+                            <a href="pages/charts/chartjs.html" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>ChartJS</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="pages/charts/flot.html" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Flot</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</aside>

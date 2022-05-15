@@ -1,0 +1,59 @@
+<div class="container">
+    <div class="card">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-center">Comment List</h3>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div *ngFor="let comment of comment_list; let i = index;" class="media">
+                            <img class="mr-3 rounded-circle" alt="Bootstrap Media Preview" [src]="comment.image || '../../../assets/user.jpg'" />
+                            <div class="media-body">
+                                <div class="row">
+                                    <div class="col-8 d-flex">
+                                        <h5>{{comment.name}}</h5> <span> - {{comment.date}}</span>
+                                    </div>
+                                    <div class="col-4">
+                                        <button (click)="showHideComment(comment)" mat-raised-button class="pull-right reply"><i class="fa fa-reply mr-1"></i>Reply</button>
+                                    </div>
+                                </div>{{comment?.comment}}
+                                <div *ngFor="let reply of comment.replyList" class="media mt-4"> <a class="pr-3" href="#"><img class="rounded-circle" alt="Bootstrap Media Another Preview" [src]="comment.image || '../../../assets/user.jpg'" /></a>
+                                    <div class="media-body">
+                                        <div class="row">
+                                            <div class="col-12 d-flex">
+                                                <h5>{{reply.name}}</h5> <span>- {{reply.date}}</span>
+                                            </div>
+                                        </div>{{reply.reply}}
+                                    </div>
+                                </div>
+                                <div *ngIf="comment.showReply" class="pb-cmnt-container">
+                                    <div class="row">
+                                        <div class="col-md-12 col-md-offset-3">
+                                            <div class="panel panel-info">
+                                                <div class="panel-body">
+                                                    <textarea placeholder="Write your Reply here!" [(ngModel)]="comment.reply" class="pb-cmnt-textarea-reply"></textarea>
+                                                    <button  mat-raised-button class="cq-accent-color pull-right" (click)="submitReply(i)" type="button" >Reply</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pb-cmnt-container">
+        <div class="row">
+            <div class="col-md-12 col-md-offset-3">
+                <div class="panel panel-info">
+                    <div class="panel-body">
+                        <textarea [(ngModel)]="comment" placeholder="Write your comment here!" class="pb-cmnt-textarea"></textarea>
+                        <button mat-raised-button class="comment-btn cq-accent-color pull-right" type="button">Comment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,159 @@
+/* .login,
+.image {
+  min-height: 100vh;
+} */
+
+/* .bg-image {
+  background-image: url("https://res.cloudinary.com/mhmd/image/upload/v1555917661/art-colorful-contemporary-2047905_dxtao7.jpg");
+  background-size: cover;
+  background-position: center center;
+} */
+
+/* .cq-login-form-cont {
+  background-color: rgb(180, 180, 180, 0.8);
+} */
+
+.login-container {
+    margin: 0;
+  }
+  .login,
+  .image {
+    min-height: 90vh !important;
+  }
+  
+  .bg-image {
+    background-image: url("../../../assets/login-bg2.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .bg-blue-transparent {
+    background: rgb(255 255 255 / 80%);
+  }
+  
+  .login-heading {
+    font-weight: 300;
+    color: #666;
+    margin-top: 1rem;
+    text-align: left;
+  }
+  
+  .logo-login {
+    width: 210px;
+    height: 53px;
+  }
+  
+  .btn-login {
+    font-size: 0.9rem;
+    letter-spacing: 0.05rem;
+    padding: 0.75rem 1rem;
+  }
+  
+  .form-label-group {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  
+  .form-label-group > input,
+  .form-label-group > label {
+    height: auto;
+    border-radius: 4px;
+  }
+  
+  .form-label-group > label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    margin-bottom: 0;
+    line-height: 1.5;
+    color: #495057;
+    cursor: text;
+    border: 1px solid transparent;
+    transition: all 0.1s ease-in-out;
+  }
+  
+  .form-control {
+    padding: 12px 15px 12px 40px;
+    font-size: 15px;
+    border: 0px solid #ccc;
+    color: #fff;
+    background: #a0a0a0;
+  }
+  
+  .all-btn {
+    font-size: 16px;
+    letter-spacing: 0.05rem;
+    padding: 12px 20px;
+    font-weight: 400 !important;
+    text-transform: uppercase !important;
+    line-height: 1.5;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #f60;
+    border-color: #f60;
+  }
+  
+  .all-btn:hover {
+    color: #fff;
+    background-color: #cdbfac;
+    border-color: #cdbfac;
+  }
+  
+  .forgot a:hover {
+    color: #333;
+  }
+  
+  .form-control:focus {
+    border-color: transparent;
+    box-shadow: none;
+    color: #ffffff;
+    background-color: #929292;
+  }
+  
+  .icon-img {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 16px;
+    height: 16px;
+  }
+  
+  .icon-img-pass {
+    position: absolute;
+    top: 14px;
+    left: 15px;
+    width: 16px;
+    height: 19px;
+  }
+  
+  .users {
+    border: 0px solid #fff;
+    border-radius: 0px;
+    padding: 12px 15px 12px 15px;
+    font-size: 15px;
+    height: 50px;
+    background: #a0a0a0;
+  }
+  
+  .icon-img-right{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 16px;
+    height: 16px;
+  }
+  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #FFF;
+    opacity: 1; /* Firefox */
+  }
+  
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #FFF;
+  }
+  
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color: #FFF;
+  }
+  

@@ -1,0 +1,11 @@
+.content-wrapper {
+  background-color: #fff;
+}
+
+.cq-login-custom-wrapper .content {
+  padding: 0;
+}
+
+.cq-login-custom-wrapper .content .container-fluid {
+  padding: 0;
+}

@@ -1,0 +1,26 @@
+.cq-dash-add-btn {
+  float: right;
+}
+
+.cq-dash-tb-cont-card {
+  border: none;
+  box-shadow: none;
+  width: 100%;
+}
+
+.mat-card-header-text {
+  margin-top: 10px;
+}
+
+.cq-dash-tb-cont-card .cq-row {
+  padding: 1rem 0rem;
+}
+
+.cqr-dash-setting-btn {
+  float: right;
+  margin: 0px 10px;
+}
+
+.cq-pol-list-cont {
+  margin: 0.5rem;
+}

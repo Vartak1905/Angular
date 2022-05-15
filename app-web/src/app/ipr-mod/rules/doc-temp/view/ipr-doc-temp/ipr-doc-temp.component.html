@@ -1,0 +1,117 @@
+<div class="row cq-ipr-rl-cont">
+    <mat-card class="cq-ipr-rl-cont-card">
+        <mat-card-header>
+            <mat-card-title>IPR Document Templates</mat-card-title>
+            <mat-card-subtitle [hidden]="hideBreadCrumb">
+                <app-ng-dynamic-breadcrumb fontSize="12px" bgColor="#fff" fontColor="#ff6600" lastLinkColor="#0430ad">
+                </app-ng-dynamic-breadcrumb>
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="cq-ipr-rl-card-cont">
+            <div class="col-md-12 no-padding cq-ipr-rl-box" *ngIf="isAdmin">
+                <div>
+                    <div class="row cq-row">
+                        <div class="col-lg-2">
+                            <label class="cq-ipr-rl-form-lbl">Insurance Category</label>
+                        </div>
+                        <div class="col-lg-2">
+                            <mat-form-field class="form-input cq-ipr-rl-form-dd">
+                                <mat-select (selectionChange)="onDocTypeChange()" [(value)]="insCategory">
+                                    <mat-option *ngFor="let lov of lovDataObj['insuranceCategory']"
+                                        [value]="lov.id">
+                                        {{lov.itemName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="cq-ipr-rl-form-lbl">Insurance Plan Category</label>
+                        </div>
+                        <div class="col-lg-2">
+                            <mat-form-field class="form-input cq-ipr-rl-form-dd">
+                                <mat-select (selectionChange)="onDocTypeChange()" [(value)]="insPlanCategory">
+                                    <mat-option *ngFor="let lov of lovDataObj['insurancePlanCategory']"
+                                        [value]="lov.id">
+                                        {{lov.itemName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-1">
+                            <label class="cq-ipr-rl-form-lbl">File</label>
+                        </div>
+                        <div class="col-lg-2  no-padding">
+                            <input id="documentFile" type="file" class="mt-15 cq-ipr-rl-ovrflow-text"
+                                (change)="uploadFile($event.target.files)" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 no-padding pull-right">
+                        <button (click)="addFile()" mat-raised-button
+                            class="cq-accent-color cq-form-btn pull-right">{{isUpdateDoc?'Update':'Add'}}</button>
+                        <button mat-raised-button (click)="clearForm()"
+                            class="cq-accent-color cq-form-btn pull-right">Clear</button>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="isAdmin">
+                <br /><br />
+            </div>
+            <div class="col-md-12 no-padding">
+                <table class="cq-ipr-doc-temp-table">
+                    <thead class="mat-row">
+                        <tr class="cq-ipr-doc-temp mat-row cdk-row ng-star-inserted">
+                            <th>Insurance Category</th>
+                            <th>Insurance Plan</th>
+                            <th>Document Format</th>
+                            <th>Document Name</th>
+                            <th>Last Update Date</th>
+                            <th *ngIf="isAdmin">Action</th>
+                        </tr>
+                    </thead>
+                    <tr *ngFor="let doc of docList" class="cq-ipr-doc-temp mat-row cdk-row ng-star-inserted">
+                        <td class="cdk-cell cdk-column-id mat-column-id ng-star-inserted">
+                            {{getItemNameById(doc?.properties,"insuranceCategory")}}
+                        </td>
+                        <td class="cdk-cell cdk-column-id mat-column-id ng-star-inserted">
+                            {{getItemNameById(doc?.properties,"insurancePlanCategory")}}
+                        </td>
+                        <td class="cdk-cell cdk-column-id mat-column-id ng-star-inserted">
+                            <i *ngIf="doc.attachment" [class]="getFileIcon(doc.attachment['fileName'])"></i>
+                        </td>
+                        <td class="cdk-cell cdk-column-id mat-column-id ng-star-inserted">
+                            <a href="#" *ngIf="doc.attachment" (click)="downloadFile(doc.attachment);skip();">
+                                {{getFileName(doc.attachment['fileName'])}}
+                            </a>
+                            <ng-container *ngIf="!doc.attachment">No Document</ng-container>
+                        </td>
+                        <td>
+                            {{(doc.attachment && doc?.modifiedDate)|date:'dd/MM/yyyy'}}
+                        </td>
+                        <td *ngIf="isAdmin">
+                            <button mat-icon-button color="primary" [matMenuTriggerFor]="appMenu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+
+                            <mat-menu #appMenu="matMenu">
+                                <ng-container>
+                                    <button *ngIf="doc.attachment" mat-menu-item (click)="deleteAttacment(doc)">
+                                        <mat-icon color="primary">delete</mat-icon>
+                                        <ng-container>Delete Template</ng-container>
+                                    </button>
+                                    <button mat-menu-item (click)="updateNewTemplate(doc.properties)">
+                                        <mat-icon color="primary">edit</mat-icon>
+                                        <ng-container>Update New Template</ng-container>
+                                    </button>
+                                </ng-container>
+                            </mat-menu>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </mat-card-content>
+    </mat-card>
+</div>

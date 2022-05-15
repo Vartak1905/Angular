@@ -1,0 +1,57 @@
+<div class="col-md-12 no-padding">
+    <div class="row" *ngIf="filter">
+        <div class="col-lg-8 col-md-8 col-sm-12">
+
+            <input type="text" class="cq-chk-page-input" (input)="onDataSearch($event.target.value)"
+                placeholder="{{searchPlaceholder}}">
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="row pull-right">
+                <span class="cqr-center">Filters</span>
+                <button mat-icon-button [matMenuTriggerFor]="filter">
+                    <mat-icon class="cq-ipr-list-filter-icon">filter_list</mat-icon>
+                </button>
+                <mat-menu #filter="matMenu">
+                    <button mat-menu-item *ngFor="let item of filterItems"
+                        (click)="initiateFilter(item?.name,item?.label)">
+                        <span>By {{item?.label}}</span>
+                    </button>
+                </mat-menu>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 cq-chk-page-card">
+        <div class="row cq-chk-page-title">
+            <mat-checkbox class="primary-color" [checked]="true" disabled>
+            </mat-checkbox>
+            <label> Selected
+                {{selDataList.length}}
+                {{(selDataList.length==0 || selDataList.length==1)?singSelTitle:multiSelTitle}}</label>
+        </div>
+        <div class="row">
+            <ng-container *ngFor="let comp of pageData;let i=index">
+                <div class="col-lg-5 col-md-5 col-sm-12 cq-chk-page-data cq-chk-page-ovrflow-text"
+                    [ngClass]="{'cq-chk-page-sel-content':comp?.checked==true,'cq-chk-page-bor-bottom':pageData?.length>1,'cq-chk-page-bor-bottom-none':pageData?.length==1}">
+                    <mat-checkbox class="primary-color" [disableRipple]="!isEditable" (click)="onChkClick($event)"
+                        (change)="onDataSel($event,comp)" [checked]="comp?.checked">
+                    </mat-checkbox>
+                    <button mat-mini-fab color="primary" class="cqr-chk-page-fab ml-8">
+                        {{comp.companyName?.substring(0,2)?.toUpperCase()}}
+                    </button>
+                    <label class="ml-8" title="{{comp.companyName}}">{{ comp.companyName }}</label>
+                </div>
+                <ng-container *ngIf="i%2==0">
+                    <div class="col-lg-2 col-md-2 cq-chk-page-data"
+                        [ngClass]="{'cq-chk-page-bor-bottom':pageData?.length>1}"></div>
+                </ng-container>
+            </ng-container>
+        </div>
+        <div class="row" [ngClass]="{'cq-chk-page-bor-top':pageData?.length==1}">
+            <div class="col-md-12 no-padding">
+                <mat-paginator [length]="subDataList?.length" [pageSize]="pageSize"
+                    (page)="pageEvent = pageChange($event)">
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

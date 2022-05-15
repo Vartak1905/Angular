@@ -1,0 +1,19 @@
+<div class="row">
+    <div class="col-lg-12">
+        <mat-card class="cq-ipr-maint-cal-card">
+            <mat-card-header>
+                <mat-card-title>Maintain Calendar</mat-card-title>
+                <mat-card-subtitle>
+                    <app-ng-dynamic-breadcrumb fontSize="12px" bgColor="#fff" fontColor="#ff6600"
+                        lastLinkColor="#0430ad">
+                    </app-ng-dynamic-breadcrumb>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <app-cal-rule-custom *ngIf="id && itemType" [itemId]="id" [itemType]="itemType" calendarType="Custom"
+                    [issueDate]="issueDate" [isSave]="true" [uniqueRef]="uniqueRef" [issueDate]="issueDate">
+                </app-cal-rule-custom>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

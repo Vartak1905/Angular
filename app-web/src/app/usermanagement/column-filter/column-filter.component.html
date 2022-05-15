@@ -1,0 +1,18 @@
+<mat-card class="cq-ul-cf-pop-card">
+    <button class="close" mat-button (click)="closeDialogue()">X</button>
+    <mat-card-header>
+        <mat-card-title>Select Column</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <section class="example-section">
+            <div *ngFor="let item of data; let i=index;">
+                <mat-checkbox *ngIf="item?.type != 'options'" [checked]="item.check" (change)="setColumn($event,i)">
+                    <span class="black-color">{{ item.displayName }}</span>
+                </mat-checkbox>
+            </div>
+        </section>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button mat-dialog-close class="cq-accent-color pull-right" (click)="closeDialogue()">Apply</button>
+    </mat-card-actions>
+</mat-card>

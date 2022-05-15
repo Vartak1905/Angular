@@ -1,0 +1,33 @@
+<div class="container-fluid login-container">
+    <div class="row">
+        <div class="offset-md-3 offset-lg-3 col-md-8 col-lg-6 bg-blue-transparent">
+            <div class="login d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-9 col-lg-7 mx-auto text-center">
+                            <img src="../../../assets/logo.png" class="logo-login mt0 mb10" />
+                            <form [formGroup]="signinFormGroup">
+                                <div class="form-label-group">
+                                    <img src="../../../assets/user.svg" class="icon-img">
+                                    <input  class="form-control"
+                                        formControlName="emailAddress" placeholder="Email" autocomplete="off">
+                                    <mat-error
+                                        *ngIf="signinFormGroup.get('emailAddress').errors?.required && signinFormGroup.controls?.emailAddress?.touched">
+                                        Please enter email
+                                    </mat-error>
+                                    <mat-error
+                                        *ngIf="signinFormGroup.get('emailAddress').errors?.pattern">
+                                        Please enter valid email
+                                    </mat-error>
+                                </div>
+                                <button
+                                    class="btn btn-lg all-btn btn-block btn-login text-uppercase font-weight-bold mb-2"
+                                    (click)="sendResetPassword()" type="submit">Reset</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

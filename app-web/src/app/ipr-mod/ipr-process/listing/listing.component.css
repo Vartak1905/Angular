@@ -1,0 +1,143 @@
+.cq-ipr-list-cont-card {
+  border: none;
+  box-shadow: none;
+  width: 100%;
+}
+
+.cq-ipr-list-card-cont {
+  padding: 1rem;
+}
+
+.cq-ipr-list-card {
+  margin: 2rem 0.5rem;
+  width: 100%;
+}
+
+.cq-ipr-list-el-badge-chip {
+  border: none !important;
+}
+
+.cq-ipr-list-el-badge-icon {
+  color: #969595;
+  font-size: 18px;
+  padding: 3px;
+}
+
+.cq-ipr-list-el-chip-icon {
+  font-size: 18px;
+  padding: 3px;
+}
+
+.cq-ipr-list-cont-card .red {
+  color: #e43131 !important;
+  border: 1px solid #e43131 !important;
+}
+
+.cq-ipr-list-cont-card .green {
+  color: green !important;
+  border: 1px solid green !important;
+}
+
+.cq-ipr-list-cont-card .blue {
+  color: #154890 !important;
+  border: 1px solid #154890 !important;
+}
+
+.cq-ipr-list-cont-card .purple {
+  color: purple !important;
+  border: 1px solid purple !important;
+}
+
+.cq-ipr-list-el-tr-info {
+  margin-left: 1rem;
+}
+
+.cq-ipr-list-card .mat-card-header-text {
+  margin: none;
+}
+
+.cq-ipr-list-card-ft-div {
+  margin-top: 0.2rem;
+  padding-right: 1.6rem;
+  padding-bottom: 0.2rem;
+}
+
+.cq-ipr-list-card-badge-div {
+  padding-left: 1.5rem;
+}
+
+.cq-ipr-list-card-head {
+  margin-top: 8px;
+}
+
+.cq-ipr-list-el-tr-info-date {
+  margin-top: 10px;
+}
+
+.cq-ipr-list-el-tr-info-type {
+  background-color: #ff6600;
+  color: #fff;
+}
+
+.cq-ipr-list-el-tr-info-status {
+  background-color: #e00000;
+  color: #fff;
+}
+
+.cq-ipr-list-el-tr-info-options {
+  color: #154890;
+  border: 1px solid #154890;
+  width: 35px;
+  height: 35px;
+  line-height: 30px;
+  margin-top: 2px;
+}
+
+.cq-ipr-list-card-head-div {
+  padding-right: 1.6rem;
+}
+
+.cq-ipr-list-filter-icon {
+  font-size: 18px;
+}
+
+.cq-ipr-list-ft-sep-icon {
+  color: #ff6600;
+  font-size: 1.6rem;
+  margin-top: 5px;
+  float: left;
+}
+
+.primary-color {
+  color: #ff6600;
+}
+
+.cq-ipr-list-card-ft {
+  display: flex;
+  justify-content: center;
+}
+
+.cq-ipr-list-card-ft .cq-btn {
+  background-color: #154890;
+  border: 1px solid #154890 !important;
+  color: #fff !important;
+}
+
+.cq-ipr-list-card-ft .cq-btn:hover {
+  background-color: #154890 !important;
+}
+
+.cq-ipr-list-card-ft-bt-cont {
+  display: block;
+  float: right;
+}
+
+.cq-ipr-list-card-ft-bt-cont-child,
+.cq-ipr-list-card-ft-btn {
+  display: inline-block;
+  float: left;
+}
+
+.cq-ipr-list-filter-cont {
+  padding-top: 5px;
+}
